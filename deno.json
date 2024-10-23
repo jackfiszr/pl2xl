@@ -1,0 +1,12 @@
+{
+  "name": "@jackfiszr/pl2xl",
+  "version": "0.0.1",
+  "exports": "./mod.ts",
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "imports": {
+    "polars": "npm:nodejs-polars@0.16.0",
+    "xlsx": "npm:xlsx@0.18.5"
+  }
+}
