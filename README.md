@@ -13,7 +13,7 @@ This library can be imported using the `jsr` import specifier and relies on the
 ### Importing the library in Deno
 
 ```typescript
-import { readExcel, writeExcel } from "jsr:@jackfiszr/pl2xl@0.0.2";
+import { readExcel, writeExcel } from "jsr:@jackfiszr/pl2xl@0.0.3";
 import pl from "npm:nodejs-polars";
 ```
 
