@@ -82,4 +82,4 @@ Writes a Polars DataFrame to an Excel file.
 
 ## License
 
-MIT License
+GNU GENERAL PUBLIC LICENSE 3.0
