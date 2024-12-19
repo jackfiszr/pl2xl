@@ -7,9 +7,9 @@ const inputDf = pl.DataFrame({
   "City": ["New York", "Los Angeles", "Chicago"],
 });
 
-writeExcel(inputDf, "input.xlsx");
+await writeExcel(inputDf, "input.xlsx");
 
-const df = readExcel("input.xlsx");
+const df = await readExcel("input.xlsx");
 console.log("Read DataFrame:", df);
 
 const modifiedDf = df.withColumn(

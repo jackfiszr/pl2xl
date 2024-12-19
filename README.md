@@ -1,9 +1,10 @@
 # pl2xl
 
-A lightweight library for reading and writing Excel files as Polars DataFrames.
-`pl2xl` enables seamless integration between Polars and Excel, allowing you to
-import data from Excel files directly into a Polars DataFrame and export
-DataFrames back to Excel.
+A lightweight library for reading and writing Excel files as Polars DataFrames.\
+`pl2xl` enables seamless integration between Polars and Excel, allowing you to:
+
+- Import data from Excel files directly into a Polars DataFrame.
+- Export Polars DataFrames back to Excel files.
 
 ## Installation
 
@@ -13,7 +14,7 @@ This library can be imported using the `jsr` import specifier and relies on the
 ### Importing the library in Deno
 
 ```typescript
-import { readExcel, writeExcel } from "jsr:@jackfiszr/pl2xl@0.0.3";
+import { readExcel, writeExcel } from "jsr:@jackfiszr/pl2xl@0.0.4";
 import pl from "npm:nodejs-polars";
 ```
 
@@ -33,52 +34,63 @@ import pl from "nodejs-polars";
 
 // Create a sample DataFrame
 const inputDf = pl.DataFrame({
-  "Name": ["Alice", "Bob", "Charlie"],
-  "Age": [25, 30, 35],
-  "City": ["New York", "Los Angeles", "Chicago"],
+  Name: ["Alice", "Bob", "Charlie"],
+  Age: [25, 30, 35],
+  City: ["New York", "Los Angeles", "Chicago"],
 });
 
 // Write the DataFrame to an Excel file
-writeExcel(inputDf, "input.xlsx");
+await writeExcel(inputDf, "input.xlsx");
 
 // Read the DataFrame back from the Excel file
-const df = readExcel("input.xlsx");
+const df = await readExcel("input.xlsx");
 console.log("Read DataFrame:", df);
 
 // Modify the DataFrame by increasing the "Age" column by 1
-const modifiedDf = df.withColumn(
-  pl.col("Age").add(1).alias("Age"),
-);
+const modifiedDf = df.withColumn(pl.col("Age").add(1).alias("Age"));
 
 console.log("Modified DataFrame:", modifiedDf);
 
 // Write the modified DataFrame to a new Excel file
-writeExcel(modifiedDf, "output.xlsx");
+await writeExcel(modifiedDf, "output.xlsx");
 console.log("Modified DataFrame written to output.xlsx");
 ```
 
 ## API
 
-### `readExcel(filePath: string): pl.DataFrame`
+### `readExcel(filePath: string): Promise<pl.DataFrame>`
 
 Reads data from the first sheet of an Excel file and returns it as a Polars
 DataFrame.
 
-- `filePath`: The path to the Excel file to be read.
+- **`filePath`**: The path to the Excel file to be read.
 
-**Returns**: A `pl.DataFrame` containing the data from the Excel file.
+**Returns**: A `Promise` that resolves to a `pl.DataFrame` containing the data
+from the Excel file.
 
-### `writeExcel(df: pl.DataFrame, filePath: string): void`
+---
+
+### `writeExcel(df: pl.DataFrame, filePath: string): Promise<void>`
 
 Writes a Polars DataFrame to an Excel file.
 
-- `df`: The Polars DataFrame to write to the file.
-- `filePath`: The path to save the Excel file.
+- **`df`**: The Polars DataFrame to write to the file.
+- **`filePath`**: The path to save the Excel file.
+
+**Returns**: A `Promise` that resolves when the file is successfully written.
 
 ## Requirements
 
-- Deno (for Deno usage) or Node.js (for Node usage)
-- `nodejs-polars` and `xlsx` packages
+- **Deno** (for Deno usage) or **Node.js** (for Node usage).
+- `nodejs-polars` for Polars DataFrame support.
+- `@tinkie101/exceljs-wrapper` as a wrapper for `ExcelJS`.
+
+## Key Changes
+
+- Replaced **SheetJS** (`xlsx`) with **ExcelJS** to enable future Excel
+  formatting capabilities.
+- Ensured strict type safety with TypeScript best practices.
+- Enhanced error handling for empty or malformed Excel files.
 
 ## License
 

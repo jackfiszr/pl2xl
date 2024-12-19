@@ -6,7 +6,7 @@
     "dev": "deno run --watch main.ts"
   },
   "imports": {
-    "polars": "npm:nodejs-polars@^0.17.0",
-    "xlsx": "npm:xlsx@0.18.5"
+    "@tinkie101/exceljs-wrapper": "jsr:@tinkie101/exceljs-wrapper@^1.0.2",
+    "polars": "npm:nodejs-polars@^0.17.0"
   }
 }
