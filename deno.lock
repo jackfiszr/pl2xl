@@ -1,11 +1,34 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@std/assert@^1.0.10": "1.0.10",
+    "jsr:@std/fs@^1.0.8": "1.0.8",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
+    "jsr:@std/path@^1.0.8": "1.0.8",
     "jsr:@tinkie101/exceljs-wrapper@^1.0.2": "1.0.2",
     "npm:exceljs@^4.4.0": "4.4.0",
+    "npm:nodejs-polars@*": "0.17.0",
     "npm:nodejs-polars@0.17": "0.17.0"
   },
   "jsr": {
+    "@std/assert@1.0.10": {
+      "integrity": "59b5cbac5bd55459a19045d95cc7c2ff787b4f8527c0dd195078ff6f9481fbb3",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/fs@1.0.8": {
+      "integrity": "161c721b6f9400b8100a851b6f4061431c538b204bb76c501d02c508995cffe0",
+      "dependencies": [
+        "jsr:@std/path"
+      ]
+    },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    },
+    "@std/path@1.0.8": {
+      "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
+    },
     "@tinkie101/exceljs-wrapper@1.0.2": {
       "integrity": "9e250f97bfa628fddf2bcfd1360c37d25ad9765f3085514b7c0d7033eadbdc4c",
       "dependencies": [
@@ -508,6 +531,8 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@std/assert@^1.0.10",
+      "jsr:@std/fs@^1.0.8",
       "jsr:@tinkie101/exceljs-wrapper@^1.0.2",
       "npm:nodejs-polars@0.17"
     ]
