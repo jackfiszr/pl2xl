@@ -19,3 +19,22 @@ export async function removeTestFile(filePath: string): Promise<void> {
     await Deno.remove(filePath);
   }
 }
+
+/**
+ * Extracts rows from an ExcelJS worksheet and removes the first row and column.
+ *
+ * @param worksheet - The ExcelJS worksheet to extract rows from.
+ * @returns A 2D array with the first row and first column removed.
+ * @throws If the worksheet is undefined.
+ */
+export function getRows(
+  worksheet: ExcelJS.Worksheet | undefined,
+): ExcelJS.CellValue[][] {
+  if (!worksheet) {
+    throw new Error("The worksheet is undefined.");
+  }
+
+  return worksheet.getSheetValues()
+    .slice(1) // Exclude the header row
+    .map((row) => (Array.isArray(row) ? row.slice(1) : [])); // Exclude the empty first column
+}
