@@ -2,6 +2,14 @@ import pl from "polars";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
 import type { RowData } from "./types.ts";
 
+/**
+ * Reads an Excel file and returns its content as a DataFrame.
+ *
+ * @param filePath - The path to the Excel file to be read.
+ * @param sheetName - Optional. The name of the sheet to read. If not provided, the first sheet will be read.
+ * @returns A promise that resolves to a DataFrame containing the data from the specified Excel sheet.
+ * @throws Will throw an error if the specified worksheet is not found in the Excel file.
+ */
 export async function readExcel(
   filePath: string,
   sheetName?: string,

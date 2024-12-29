@@ -2,6 +2,19 @@ import type pl from "polars";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
 import type { RowData, TableStyle } from "./types.ts";
 
+/**
+ * Writes a DataFrame to an Excel file.
+ *
+ * @param df - The DataFrame to write to the Excel file.
+ * @param filePath - The path where the Excel file will be saved.
+ * @param options - Optional settings for writing the Excel file.
+ * @param options.sheetName - The name of the sheet in the Excel file. Defaults to "Sheet1".
+ * @param options.includeHeader - Whether to include the DataFrame's column headers in the Excel file. Defaults to true.
+ * @param options.autofitColumns - Whether to auto-fit the columns based on their content. Defaults to true.
+ * @param options.tableStyle - The style to apply to the table in the Excel file.
+ * @throws Will throw an error if the DataFrame is empty.
+ * @returns A promise that resolves when the Excel file has been written.
+ */
 export async function writeExcel(
   df: pl.DataFrame,
   filePath: string,
