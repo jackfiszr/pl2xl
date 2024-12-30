@@ -12,7 +12,7 @@ import type { RowData, TableStyle } from "./types.ts";
  * @param options.includeHeader - Whether to include the DataFrame's column headers in the Excel file. Defaults to true.
  * @param options.autofitColumns - Whether to auto-fit the columns based on their content. Defaults to true.
  * @param options.tableStyle - The style to apply to the tables in the Excel file.
- * @throws Will throw an error if any of the DataFrames are empty.
+ * @throws Will throw an error if all the DataFrames are empty.
  * @returns A promise that resolves when the Excel file has been written.
  */
 export async function writeExcel(
@@ -39,6 +39,16 @@ export async function writeExcel(
     throw new Error("Not enough sheet names provided for the DataFrames.");
   }
 
+  // Check if all DataFrames are empty
+  const allEmpty = dataframes.every((df) => df.height === 0);
+  if (allEmpty) {
+    if (dataframes.length === 1) {
+      throw new Error("The DataFrame is empty. Nothing to write.");
+    } else {
+      throw new Error("All provided DataFrames are empty. Nothing to write.");
+    }
+  }
+
   const workbook = new ExcelJS.Workbook();
 
   for (let i = 0; i < dataframes.length; i++) {
@@ -47,12 +57,12 @@ export async function writeExcel(
 
     const rows: RowData[] = currentDf.toRecords();
 
+    // Skip writing empty DataFrames but don't throw
     if (rows.length === 0) {
-      if (dataframes.length === 1) {
-        throw new Error("The DataFrame is empty. Nothing to write.");
-      } else {throw new Error(
-          `DataFrame at index ${i} is empty. Nothing to write.`,
-        );}
+      console.warn(
+        `DataFrame at index ${i} is empty. Skipping this worksheet.`,
+      );
+      continue;
     }
 
     const worksheet = workbook.addWorksheet(currentSheetName);
