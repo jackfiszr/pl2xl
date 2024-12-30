@@ -34,7 +34,12 @@ export async function readExcel(
     const rowData: RowData = {};
 
     row.eachCell((cell, colNumber) => {
-      const cellValue = cell.value as string | number | boolean | null;
+      let cellValue = cell.value as string | number | boolean | null;
+
+      if (typeof cellValue === "string" && cellValue.trim() === "") {
+        // Replace empty string with null
+        cellValue = null;
+      }
 
       if (rowNumber === 1) {
         headers[colNumber - 1] = cellValue?.toString() || `Column${colNumber}`;
