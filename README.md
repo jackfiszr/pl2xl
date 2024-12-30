@@ -14,7 +14,7 @@ This library can be imported using the `jsr` import specifier and relies on the
 ### Importing the library in Deno
 
 ```typescript
-import { readExcel, writeExcel } from "jsr:@jackfiszr/pl2xl@0.0.6";
+import { readExcel, writeExcel } from "jsr:@jackfiszr/pl2xl@0.0.7";
 import pl from "npm:nodejs-polars";
 ```
 
@@ -55,9 +55,10 @@ console.log("Modified DataFrame:", modifiedDf.toString());
 await writeExcel(modifiedDf, "output.xlsx");
 console.log("Modified DataFrame written to output.xlsx");
 
-// Write multiple DataFrames to separate worksheets of a single Excel file
-await writeExcel([inputDf, modifiedDf], "multiple_sheets.xlsx", {
-  sheetName: ["Input", "Modified"],
+// Create multiple DataFrames, one of which is empty
+const emptyDf = pl.DataFrame([]);
+await writeExcel([inputDf, modifiedDf, emptyDf], "multiple_sheets.xlsx", {
+  sheetName: ["Input", "Modified", "Empty"],
 });
 console.log("Multiple DataFrames written to multiple_sheets.xlsx");
 ```
@@ -71,6 +72,13 @@ Reads data from an Excel file and returns it as a Polars DataFrame.
 - **`filePath`**: The path to the Excel file to be read.
 - **`sheetName`** _(optional)_: The name of the sheet to read. If not provided,
   the first sheet will be read.
+
+**Key Behavior**:
+
+- Empty cells in Excel are interpreted by ExcelJS as empty strings. Since `null`
+  is the appropriate representation for missing values in DataFrames,
+  `readExcel` automatically converts empty strings returned by ExcelJS into
+  `null` values.
 
 **Returns**: A `Promise` that resolves to a `pl.DataFrame` containing the data
 from the Excel sheet.
@@ -95,10 +103,14 @@ formatting.
     Defaults to `true`.
   - **`tableStyle`**: A style theme for formatting the table in the Excel sheet.
 
-**Returns**: A `Promise` that resolves when the file is successfully written.
+**Key Behavior**:
 
-**Throws**: Will throw an error if any of the DataFrames are empty or if the
-number of sheet names is insufficient.
+- If all DataFrames are empty, the function throws an error to prevent writing
+  an Excel file with no meaningful content.
+- If some DataFrames are empty, they are skipped, and a warning is logged for
+  each skipped DataFrame. Non-empty DataFrames are written as expected.
+
+**Returns**: A `Promise` that resolves when the file is successfully written.
 
 ---
 
@@ -111,9 +123,11 @@ number of sheet names is insufficient.
 ## Key Features
 
 - Support for reading specific sheets from Excel files.
+- Automatically converts empty cells interpreted by ExcelJS as empty strings to
+  `null` for compatibility with Polars DataFrames.
 - Optional column auto-fitting when writing DataFrames to Excel.
 - Ability to write multiple DataFrames into separate worksheets.
-- Support for table styling with Excel themes for enhanced readability.
+- Skips empty DataFrames when writing, with warnings for each skipped sheet.
 - Full compatibility with Polars DataFrames for seamless data manipulation.
 
 ---
@@ -122,6 +136,10 @@ number of sheet names is insufficient.
 
 - Added support for writing multiple DataFrames into separate worksheets.
 - Introduced dynamic handling of sheet names for multiple DataFrames.
+- Empty cells in Excel are now automatically converted to `null` values for
+  consistency in DataFrame processing.
+- Skips empty DataFrames during writing, throwing an error only if all provided
+  DataFrames are empty.
 - Options for customizing headers, autofit, and table styling when writing Excel
   files.
 - Ensured strict type safety with TypeScript best practices.

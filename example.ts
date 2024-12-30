@@ -24,9 +24,10 @@ console.log("Modified DataFrame:", modifiedDf.toString());
 await writeExcel(modifiedDf, "output.xlsx");
 console.log("Modified DataFrame written to output.xlsx");
 
-// Write multiple DataFrames to separate worksheets of a single Excel file
-await writeExcel([inputDf, modifiedDf], "multiple_sheets.xlsx", {
-  sheetName: ["Input", "Modified"],
+// Create multiple DataFrames, one of which is empty
+const emptyDf = pl.DataFrame([]);
+await writeExcel([inputDf, modifiedDf, emptyDf], "multiple_sheets.xlsx", {
+  sheetName: ["Input", "Modified", "Empty"],
 });
 console.log("Multiple DataFrames written to multiple_sheets.xlsx");
 
