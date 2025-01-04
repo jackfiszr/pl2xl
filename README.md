@@ -1,5 +1,11 @@
 # pl2xl
 
+[![JSR](https://jsr.io/badges/@jackfiszr/pl2xl)](https://jsr.io/@jackfiszr/pl2xl)
+[![JSR Score](https://jsr.io/badges/@jackfiszr/pl2xl/score)](https://jsr.io/@jackfiszr/pl2xl)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/jackfiszr/pl2xl)](https://github.com/jackfiszr/pl2xl/pulse)
+[![GitHub last commit](https://img.shields.io/github/last-commit/jackfiszr/pl2xl)](https://github.com/jackfiszr/pl2xl/commits/main)
+[![GitHub](https://img.shields.io/github/license/jackfiszr/pl2xl)](https://github.com/jackfiszr/pl2xl/blob/main/LICENSE)
+
 A lightweight library for reading and writing Excel files as Polars DataFrames.\
 `pl2xl` enables seamless integration between Polars and Excel, allowing you to:
 
