@@ -93,7 +93,7 @@ from the Excel sheet.
 
 ---
 
-### `writeExcel(df: pl.DataFrame | pl.DataFrame[], filePath: string, options?: { sheetName?: string | string[]; includeHeader?: boolean; autofitColumns?: boolean; tableStyle?: TableStyle }): Promise<void>`
+### `writeExcel(df: pl.DataFrame | pl.DataFrame[], filePath: string, options?: { sheetName?: string | string[]; includeHeader?: boolean; autofitColumns?: boolean; tableStyle?: TableStyle, header?: string, footer?: string }): Promise<void>`
 
 Writes one or more Polars DataFrames to an Excel file, with optional styling and
 formatting.
@@ -108,6 +108,9 @@ formatting.
   - **`autofitColumns`**: Whether to auto-fit columns based on their content.
     Defaults to `true`.
   - **`tableStyle`**: A style theme for formatting the table in the Excel sheet.
+  - **`header`**: - The header to add to the top of each page in the Excel file.
+  - **`footer`**: - The footer to add to the bottom of each page in the Excel
+    file.
 
 **Key Behavior**:
 
