@@ -20,7 +20,7 @@ This library can be imported using the `jsr` import specifier and relies on the
 ### Importing the library in Deno
 
 ```typescript
-import { readExcel, writeExcel } from "jsr:@jackfiszr/pl2xl@0.0.7";
+import { readExcel, writeExcel } from "jsr:@jackfiszr/pl2xl@0.0.8";
 import pl from "npm:nodejs-polars";
 ```
 
