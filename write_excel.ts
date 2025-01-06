@@ -12,6 +12,8 @@ import type { RowData, TableStyle } from "./types.ts";
  * @param options.includeHeader - Whether to include the DataFrame's column headers in the Excel file. Defaults to true.
  * @param options.autofitColumns - Whether to auto-fit the columns based on their content. Defaults to true.
  * @param options.tableStyle - The style to apply to the tables in the Excel file.
+ * @param options.header - The header to add to the top of each page in the Excel file.
+ * @param options.footer - The footer to add to the bottom of each page in the Excel file.
  * @throws Will throw an error if all the DataFrames are empty.
  * @returns A promise that resolves when the Excel file has been written.
  */
@@ -23,6 +25,8 @@ export async function writeExcel(
     includeHeader?: boolean;
     autofitColumns?: boolean;
     tableStyle?: TableStyle;
+    header?: string;
+    footer?: string;
   } = {},
 ): Promise<void> {
   const {
@@ -30,6 +34,8 @@ export async function writeExcel(
     includeHeader = true,
     autofitColumns = true,
     tableStyle,
+    header,
+    footer,
   } = options;
 
   const dataframes = Array.isArray(df) ? df : [df];
@@ -107,6 +113,15 @@ export async function writeExcel(
           column.width = 10; // Default width
         }
       });
+    }
+
+    if (header) {
+      worksheet.headerFooter.oddHeader = header;
+      worksheet.headerFooter.evenHeader = header;
+    }
+    if (footer) {
+      worksheet.headerFooter.oddFooter = footer;
+      worksheet.headerFooter.evenFooter = footer;
     }
   }
 
