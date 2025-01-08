@@ -17,7 +17,7 @@ export async function readExcel(
   options: ReadExcelOptions = {},
 ): Promise<pl.DataFrame> {
   const {
-    sheetName = ["Sheet1"],
+    sheetName = null,
     inferSchemaLength = 100,
   } = options;
 

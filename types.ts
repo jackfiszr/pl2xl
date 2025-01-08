@@ -12,7 +12,7 @@ type SchemaDict = Record<string, unknown>;
 
 export interface ReadExcelOptions {
   sheetId?: number | null;
-  sheetName?: string[] | [string];
+  sheetName?: string[] | [string] | null;
   engine?: ExcelSpreadsheetEngine;
   engineOptions?: Record<string, unknown>;
   readOptions?: Record<string, unknown>;

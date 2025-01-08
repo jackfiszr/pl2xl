@@ -77,8 +77,8 @@ Reads data from an Excel file and returns it as a Polars DataFrame.
 
 - **`filePath`**: The path to the Excel file to be read.
 - **`options`** _(optional)_:
-  - **`sheetName`**: The name(s) of the sheet(s) to read. Defaults to
-    `["Sheet1"]`.
+  - **`sheetName`**: The name(s) of the sheet(s) to read. If not provided, the
+    first sheet will be read.
   - **`inferSchemaLength`**: The number of rows to infer the schema from.
     Defaults to `100`.
 
