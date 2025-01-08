@@ -1,6 +1,6 @@
 {
   "name": "@jackfiszr/pl2xl",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "exports": "./mod.ts",
   "tasks": {
     "dev": "deno run --watch main.ts"
