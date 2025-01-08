@@ -1,24 +1,31 @@
 import pl from "polars";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
-import type { RowData } from "./types.ts";
+import type { ReadExcelOptions, RowData } from "./types.ts";
 
 /**
- * Reads an Excel file and returns its content as a DataFrame.
+ * Reads an Excel file and converts the specified worksheet to a DataFrame.
  *
  * @param filePath - The path to the Excel file to be read.
- * @param sheetName - Optional. The name of the sheet to read. If not provided, the first sheet will be read.
- * @returns A promise that resolves to a DataFrame containing the data from the specified Excel sheet.
+ * @param options - Optional settings for reading the Excel file.
+ * @param options.sheetName - The name of the worksheet to read. Defaults to "Sheet1".
+ * @param options.inferSchemaLength - The number of rows to infer the schema from. Defaults to 100.
+ * @returns A promise that resolves to a DataFrame containing the data from the specified worksheet.
  * @throws Will throw an error if the specified worksheet is not found in the Excel file.
  */
 export async function readExcel(
   filePath: string,
-  sheetName?: string,
+  options: ReadExcelOptions = {},
 ): Promise<pl.DataFrame> {
+  const {
+    sheetName = ["Sheet1"],
+    inferSchemaLength = 100,
+  } = options;
+
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(filePath);
 
   const worksheet = sheetName
-    ? workbook.getWorksheet(sheetName)
+    ? workbook.getWorksheet(sheetName[0])
     : workbook.worksheets[0];
 
   if (!worksheet) {
@@ -27,6 +34,24 @@ export async function readExcel(
     );
   }
 
+  const jsonData = worksheetToJson(worksheet);
+
+  return pl.DataFrame(jsonData, { inferSchemaLength });
+}
+
+/**
+ * Converts an Excel worksheet to a JSON array of row data.
+ *
+ * @param {ExcelJS.Worksheet} worksheet - The worksheet to convert.
+ * @returns {RowData[]} An array of row data objects, where each object represents a row in the worksheet.
+ *
+ * @remarks
+ * - The first row of the worksheet is assumed to be the header row.
+ * - Each cell value in the header row is used as the key for the corresponding column in the row data objects.
+ * - Empty string cell values are replaced with `null`.
+ * - If a header cell is empty, a default column name in the format `Column{colNumber}` is used.
+ */
+function worksheetToJson(worksheet: ExcelJS.Worksheet): RowData[] {
   const jsonData: RowData[] = [];
   const headers: string[] = [];
 
@@ -53,5 +78,5 @@ export async function readExcel(
     }
   });
 
-  return pl.DataFrame(jsonData);
+  return jsonData;
 }

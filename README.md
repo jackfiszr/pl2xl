@@ -71,13 +71,16 @@ console.log("Multiple DataFrames written to multiple_sheets.xlsx");
 
 ## API
 
-### `readExcel(filePath: string, sheetName?: string): Promise<pl.DataFrame>`
+### `readExcel(filePath: string, options?: { sheetName?: string[], inferSchemaLength?: number }): Promise<pl.DataFrame>`
 
 Reads data from an Excel file and returns it as a Polars DataFrame.
 
 - **`filePath`**: The path to the Excel file to be read.
-- **`sheetName`** _(optional)_: The name of the sheet to read. If not provided,
-  the first sheet will be read.
+- **`options`** _(optional)_:
+  - **`sheetName`**: The name(s) of the sheet(s) to read. Defaults to
+    `["Sheet1"]`.
+  - **`inferSchemaLength`**: The number of rows to infer the schema from.
+    Defaults to `100`.
 
 **Key Behavior**:
 

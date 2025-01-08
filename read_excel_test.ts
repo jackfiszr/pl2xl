@@ -40,7 +40,7 @@ Deno.test({
 
     await assertRejects(
       async () => {
-        await readExcel(filePath, "NonExistentSheet");
+        await readExcel(filePath, { sheetName: ["NonExistentSheet"] });
       },
       Error,
       "Worksheet NonExistentSheet not found in the Excel file.",

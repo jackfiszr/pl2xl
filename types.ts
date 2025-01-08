@@ -6,3 +6,22 @@ export type RowData = Record<
 >;
 
 export type TableStyle = ExcelJS.TableStyleProperties["theme"];
+
+type ExcelSpreadsheetEngine = "exceljs" | "xslx";
+type SchemaDict = Record<string, unknown>;
+
+export interface ReadExcelOptions {
+  sheetId?: number | null;
+  sheetName?: string[] | [string];
+  engine?: ExcelSpreadsheetEngine;
+  engineOptions?: Record<string, unknown>;
+  readOptions?: Record<string, unknown>;
+  hasHeader?: boolean;
+  columns?: number[] | string[] | null;
+  schemaOverrides?: SchemaDict | null;
+  inferSchemaLength?: number;
+  includeFilePaths?: string | null;
+  dropEmptyRows?: boolean;
+  dropEmptyCols?: boolean;
+  raiseIfEmpty?: boolean;
+}
