@@ -7,7 +7,7 @@ import type { ReadExcelOptions, RowData } from "./types.ts";
  *
  * @param filePath - The path to the Excel file to be read.
  * @param options - Optional settings for reading the Excel file.
- * @param options.sheetName - The name of the worksheet to read. Defaults to "Sheet1".
+ * @param options.sheetName - The name of the worksheet to read. Defaults to `null`.
  * @param options.inferSchemaLength - The number of rows to infer the schema from. Defaults to 100.
  * @returns A promise that resolves to a DataFrame containing the data from the specified worksheet.
  * @throws Will throw an error if the specified worksheet is not found in the Excel file.
@@ -30,7 +30,7 @@ export async function readExcel(
 
   if (!worksheet) {
     throw new Error(
-      `Worksheet ${sheetName || "Sheet1"} not found in the Excel file.`,
+      `Worksheet ${sheetName} not found in the Excel file.`,
     );
   }
 
