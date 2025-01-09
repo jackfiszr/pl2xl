@@ -105,9 +105,9 @@ export async function writeExcel(
       worksheet.columns.forEach((column) => {
         if (column.values) {
           column.width = Math.max(
-            ...column.values.map((
-              value,
-            ) => (value ? value.toString().length : 10)),
+            ...column.values
+              .slice(1) // Skip the metadata slot
+              .map((value) => (value ? value.toString().length : 10)),
           );
         } else {
           column.width = 10; // Default width
