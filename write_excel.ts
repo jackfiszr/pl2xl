@@ -14,6 +14,7 @@ import type { RowData, TableStyle } from "./types.ts";
  * @param options.tableStyle - The style to apply to the tables in the Excel file.
  * @param options.header - The header to add to the top of each page in the Excel file.
  * @param options.footer - The footer to add to the bottom of each page in the Excel file.
+ * @param options.withWorkbook - A callback function that receives the workbook instance for further customization.
  * @throws Will throw an error if all the DataFrames are empty.
  * @returns A promise that resolves when the Excel file has been written.
  */
@@ -27,6 +28,7 @@ export async function writeExcel(
     tableStyle?: TableStyle;
     header?: string;
     footer?: string;
+    withWorkbook?: (workbook: ExcelJS.Workbook) => void;
   } = {},
 ): Promise<void> {
   const {
@@ -36,6 +38,7 @@ export async function writeExcel(
     tableStyle,
     header,
     footer,
+    withWorkbook,
   } = options;
 
   const dataframes = Array.isArray(df) ? df : [df];
@@ -123,6 +126,10 @@ export async function writeExcel(
       worksheet.headerFooter.oddFooter = footer;
       worksheet.headerFooter.evenFooter = footer;
     }
+  }
+
+  if (withWorkbook) {
+    withWorkbook(workbook);
   }
 
   await workbook.xlsx.writeFile(filePath);

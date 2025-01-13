@@ -96,7 +96,7 @@ from the Excel sheet.
 
 ---
 
-### `writeExcel(df: pl.DataFrame | pl.DataFrame[], filePath: string, options?: { sheetName?: string | string[]; includeHeader?: boolean; autofitColumns?: boolean; tableStyle?: TableStyle, header?: string, footer?: string }): Promise<void>`
+### `writeExcel(df: pl.DataFrame | pl.DataFrame[], filePath: string, options?: { sheetName?: string | string[]; includeHeader?: boolean; autofitColumns?: boolean; tableStyle?: TableStyle, header?: string, footer?: string, withWorkbook?: (workbook: ExcelJS.Workbook) => void }): Promise<void>`
 
 Writes one or more Polars DataFrames to an Excel file, with optional styling and
 formatting.
@@ -114,6 +114,8 @@ formatting.
   - **`header`**: - The header to add to the top of each page in the Excel file.
   - **`footer`**: - The footer to add to the bottom of each page in the Excel
     file.
+  - **`withWorkbook`**: A function that receives the ExcelJS `workbook` object
+    for further customization.
 
 **Key Behavior**:
 
@@ -121,6 +123,8 @@ formatting.
   an Excel file with no meaningful content.
 - If some DataFrames are empty, they are skipped, and a warning is logged for
   each skipped DataFrame. Non-empty DataFrames are written as expected.
+- The `options.withWorkbook` parameter allows further customization of the
+  workbook using the ExcelJS API.
 
 **Returns**: A `Promise` that resolves when the file is successfully written.
 
@@ -141,6 +145,11 @@ formatting.
 - Ability to write multiple DataFrames into separate worksheets.
 - Skips empty DataFrames when writing, with warnings for each skipped sheet.
 - Full compatibility with Polars DataFrames for seamless data manipulation.
+- Options for customizing headers, autofit, and table styling when writing Excel
+  files.
+- Exposes the `workbook` object for further customization using the ExcelJS API
+  through the `options.withWorkbook` parameter.
+- Ensured strict type safety with TypeScript best practices.
 
 ---
 
@@ -154,6 +163,8 @@ formatting.
   DataFrames are empty.
 - Options for customizing headers, autofit, and table styling when writing Excel
   files.
+- Exposes the `workbook` object for further customization using the ExcelJS API
+  through the `options.withWorkbook` parameter.
 - Ensured strict type safety with TypeScript best practices.
 
 ---
