@@ -1,6 +1,6 @@
 import type pl from "polars";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
-import type { RowData, TableStyle } from "./types.ts";
+import type { RowData, TableStyle } from "./types.d.ts";
 
 /**
  * Writes one or more DataFrames to an Excel file, each in its own worksheet.

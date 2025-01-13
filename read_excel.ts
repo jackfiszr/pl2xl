@@ -1,6 +1,6 @@
 import pl from "polars";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
-import type { ReadExcelOptions, RowData } from "./types.ts";
+import type { ReadExcelOptions, RowData } from "./types.d.ts";
 
 /**
  * Reads an Excel file and converts the specified worksheet to a DataFrame.
