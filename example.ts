@@ -9,7 +9,7 @@ const inputDf = pl.DataFrame({
 });
 
 // Write the DataFrame to an Excel file
-await writeExcel(inputDf, "input.xlsx");
+await inputDf.writeExcel("input.xlsx");
 
 // Read the DataFrame back from the Excel file
 const df = await pl.readExcel("input.xlsx");
@@ -21,7 +21,7 @@ const modifiedDf = df.withColumn(pl.col("Age").add(1).alias("Age"));
 console.log("Modified DataFrame:", modifiedDf.toString());
 
 // Write the modified DataFrame to a new Excel file
-await writeExcel(modifiedDf, "output.xlsx");
+await modifiedDf.writeExcel("output.xlsx");
 console.log("Modified DataFrame written to output.xlsx");
 
 // Create multiple DataFrames, one of which is empty
