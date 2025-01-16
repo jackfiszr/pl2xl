@@ -1,6 +1,6 @@
 import type pl from "polars";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
-import type { RowData, TableStyle } from "./types.d.ts";
+import type { RowData, WriteExcelOptions } from "./types.d.ts";
 
 /**
  * Writes one or more DataFrames to an Excel file, each in its own worksheet.
@@ -21,15 +21,7 @@ import type { RowData, TableStyle } from "./types.d.ts";
 export async function writeExcel(
   df: pl.DataFrame | pl.DataFrame[],
   filePath: string,
-  options: {
-    sheetName?: string | string[];
-    includeHeader?: boolean;
-    autofitColumns?: boolean;
-    tableStyle?: TableStyle;
-    header?: string;
-    footer?: string;
-    withWorkbook?: (workbook: ExcelJS.Workbook) => void;
-  } = {},
+  options: WriteExcelOptions = {},
 ): Promise<void> {
   const {
     sheetName = "Sheet1",

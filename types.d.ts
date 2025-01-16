@@ -25,3 +25,13 @@ export interface ReadExcelOptions {
   dropEmptyCols?: boolean;
   raiseIfEmpty?: boolean;
 }
+
+export interface WriteExcelOptions {
+  sheetName?: string | string[];
+  includeHeader?: boolean;
+  autofitColumns?: boolean;
+  tableStyle?: TableStyle;
+  header?: string;
+  footer?: string;
+  withWorkbook?: (workbook: ExcelJS.Workbook) => void;
+}
