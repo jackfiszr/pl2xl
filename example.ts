@@ -1,5 +1,5 @@
-import { readExcel, writeExcel } from "@jackfiszr/pl2xl";
-import pl from "polars";
+import { writeExcel } from "@jackfiszr/pl2xl";
+import pl from "./mod.ts";
 
 // Create a sample DataFrame
 const inputDf = pl.DataFrame({
@@ -12,7 +12,7 @@ const inputDf = pl.DataFrame({
 await writeExcel(inputDf, "input.xlsx");
 
 // Read the DataFrame back from the Excel file
-const df = await readExcel("input.xlsx");
+const df = await pl.readExcel("input.xlsx");
 console.log("Read DataFrame:", df.toString());
 
 // Modify the DataFrame by increasing the "Age" column by 1
