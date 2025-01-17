@@ -1,61 +1,42 @@
-import pl from "polars";
+import originalPl from "polars";
 import { readExcel } from "./read_excel.ts";
 import { writeExcel } from "./write_excel.ts";
 import type { ReadExcelOptions, WriteExcelOptions } from "./types.d.ts";
 
-// Extend the Polars DataFrame type to include the writeExcel method
-declare module "polars" {
-  interface DataFrame {
-    writeExcel: (
+// Create an extended DataFrame type locally
+interface ExtendedDataFrame extends originalPl.DataFrame {
+  writeExcel: (filePath: string, options?: WriteExcelOptions) => Promise<void>;
+}
+
+// Wrap the original DataFrame factory to add the `writeExcel` method
+const WrappedDataFrame = function (
+  ...args: Parameters<typeof originalPl.DataFrame>
+): ExtendedDataFrame {
+  const instance = originalPl.DataFrame(...args) as ExtendedDataFrame;
+
+  // Add the `writeExcel` method if it doesn't exist
+  if (!instance.writeExcel) {
+    instance.writeExcel = async function (
       filePath: string,
       options?: WriteExcelOptions,
-    ) => Promise<void>;
+    ): Promise<void> {
+      await writeExcel(this, filePath, options);
+    };
   }
-}
-
-// Save a reference to the original DataFrame factory function
-const OriginalDataFrame = pl.DataFrame;
-
-// Create a wrapper for the DataFrame function
-function WrappedDataFrame(
-  ...args: Parameters<typeof OriginalDataFrame>
-): pl.DataFrame {
-  // Create the original DataFrame instance
-  const instance = OriginalDataFrame(...args);
-
-  // Dynamically add the `writeExcel` method to the DataFrame instance
-  instance.writeExcel = async function (
-    filePath: string,
-    options?: WriteExcelOptions,
-  ): Promise<void> {
-    await writeExcel(this, filePath, options);
-  };
 
   return instance;
-}
-
-// Replace the original DataFrame function with the wrapped one
-Object.defineProperty(pl, "DataFrame", {
-  value: WrappedDataFrame,
-  writable: false, // Ensure that the replacement is not modifiable
-});
-
-// Extend the Polars type to include the readExcel method
-type ExtendedPolars = typeof pl & {
-  readExcel: (
-    filePath: string,
-    options?: ReadExcelOptions,
-  ) => Promise<pl.DataFrame>;
 };
 
-// Attach the readExcel function to the Polars module
-const extendedPl: ExtendedPolars = {
-  ...pl,
+// Replace the DataFrame factory with the wrapped one
+const extendedPl = {
+  ...originalPl,
+  DataFrame: WrappedDataFrame,
   readExcel: async function (
     filePath: string,
     options?: ReadExcelOptions,
-  ): Promise<pl.DataFrame> {
-    return await readExcel(filePath, options);
+  ): Promise<ExtendedDataFrame> {
+    const df = await readExcel(filePath, options);
+    return df as ExtendedDataFrame;
   },
 };
 
