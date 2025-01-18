@@ -1,12 +1,11 @@
 import originalPl from "polars";
 import { readExcel } from "./read_excel.ts";
 import { writeExcel } from "./write_excel.ts";
-import type { ReadExcelOptions, WriteExcelOptions } from "./types.d.ts";
-
-// Create an extended DataFrame type locally
-interface ExtendedDataFrame extends originalPl.DataFrame {
-  writeExcel: (filePath: string, options?: WriteExcelOptions) => Promise<void>;
-}
+import type {
+  ExtendedDataFrame,
+  ReadExcelOptions,
+  WriteExcelOptions,
+} from "./types.d.ts";
 
 // Wrap the original DataFrame factory to add the `writeExcel` method
 const WrappedDataFrame = function (
@@ -28,10 +27,10 @@ const WrappedDataFrame = function (
   const originalWithColumns = instance.withColumns.bind(instance);
 
   instance.withColumns = function (
-    ...columns: Parameters<typeof originalPl.DataFrame.prototype.withColumns>
+    columns: originalPl.Series | originalPl.Expr,
   ): ExtendedDataFrame {
     // Call the original withColumns method
-    const newDf = originalWithColumns(...columns);
+    const newDf = originalWithColumns(columns);
 
     // Wrap the returned DataFrame to add the writeExcel method
     return WrappedDataFrame(newDf);

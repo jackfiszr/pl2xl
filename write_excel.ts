@@ -1,6 +1,9 @@
-import type pl from "polars";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
-import type { RowData, WriteExcelOptions } from "./types.d.ts";
+import type {
+  ExtendedDataFrame,
+  RowData,
+  WriteExcelOptions,
+} from "./types.d.ts";
 
 /**
  * Writes one or more DataFrames to an Excel file, each in its own worksheet.
@@ -19,7 +22,7 @@ import type { RowData, WriteExcelOptions } from "./types.d.ts";
  * @returns A promise that resolves when the Excel file has been written.
  */
 export async function writeExcel(
-  df: pl.DataFrame | pl.DataFrame[],
+  df: ExtendedDataFrame | ExtendedDataFrame[],
   filePath: string,
   options: WriteExcelOptions = {},
 ): Promise<void> {

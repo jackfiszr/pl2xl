@@ -1,4 +1,5 @@
 import type ExcelJS from "@tinkie101/exceljs-wrapper";
+import type originalPl from "polars";
 
 export type RowData = Record<
   string,
@@ -9,6 +10,10 @@ export type TableStyle = ExcelJS.TableStyleProperties["theme"];
 
 type ExcelSpreadsheetEngine = "exceljs" | "xslx";
 type SchemaDict = Record<string, unknown>;
+
+export interface ExtendedDataFrame extends originalPl.DataFrame {
+  writeExcel: (filePath: string, options?: WriteExcelOptions) => Promise<void>;
+}
 
 export interface ReadExcelOptions {
   sheetId?: number | null;

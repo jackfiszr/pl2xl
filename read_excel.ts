@@ -1,6 +1,10 @@
-import pl from "polars";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
-import type { ReadExcelOptions, RowData } from "./types.d.ts";
+import extenedPl from "./mod.ts";
+import type {
+  ExtendedDataFrame,
+  ReadExcelOptions,
+  RowData,
+} from "./types.d.ts";
 
 /**
  * Reads an Excel file and converts the specified worksheet to a DataFrame.
@@ -15,7 +19,7 @@ import type { ReadExcelOptions, RowData } from "./types.d.ts";
 export async function readExcel(
   filePath: string,
   options: ReadExcelOptions = {},
-): Promise<pl.DataFrame> {
+): Promise<ExtendedDataFrame> {
   const {
     sheetName = null,
     inferSchemaLength = 100,
@@ -36,7 +40,7 @@ export async function readExcel(
 
   const jsonData = worksheetToJson(worksheet);
 
-  return pl.DataFrame(jsonData, { inferSchemaLength });
+  return extenedPl.DataFrame(jsonData, { inferSchemaLength });
 }
 
 /**
