@@ -24,6 +24,19 @@ const WrappedDataFrame = function (
     };
   }
 
+  // Extend the `withColumns` method
+  const originalWithColumns = instance.withColumns.bind(instance);
+
+  instance.withColumns = function (
+    ...columns: Parameters<typeof originalPl.DataFrame.prototype.withColumns>
+  ): ExtendedDataFrame {
+    // Call the original withColumns method
+    const newDf = originalWithColumns(...columns);
+
+    // Wrap the returned DataFrame to add the writeExcel method
+    return WrappedDataFrame(newDf);
+  };
+
   return instance;
 };
 
@@ -36,7 +49,9 @@ const extendedPl = {
     options?: ReadExcelOptions,
   ): Promise<ExtendedDataFrame> {
     const df = await readExcel(filePath, options);
-    return df as ExtendedDataFrame;
+
+    // Wrap the returned DataFrame to add the writeExcel method
+    return WrappedDataFrame(df);
   },
 };
 
