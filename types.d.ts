@@ -11,8 +11,11 @@ export type TableStyle = ExcelJS.TableStyleProperties["theme"];
 type ExcelSpreadsheetEngine = "exceljs" | "xslx";
 type SchemaDict = Record<string, unknown>;
 
+// deno-fmt-ignore
 export interface ExtendedDataFrame extends originalPl.DataFrame {
   writeExcel: (filePath: string, options?: WriteExcelOptions) => Promise<void>;
+  withColumn: (columns: originalPl.Series | originalPl.Expr) => ExtendedDataFrame;
+  withColumns: (...columns: (originalPl.Expr | originalPl.Series)[]) => ExtendedDataFrame;
 }
 
 export interface ReadExcelOptions {

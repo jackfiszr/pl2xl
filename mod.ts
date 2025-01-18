@@ -23,14 +23,27 @@ const WrappedDataFrame = function (
     };
   }
 
+  // Extend the `withColumn` method
+  const originalWithColumn = instance.withColumn.bind(instance);
+
+  instance.withColumn = function (
+    columns: originalPl.Series | originalPl.Expr,
+  ): ExtendedDataFrame {
+    // Call the original withColumn method
+    const newDf = originalWithColumn(columns);
+
+    // Wrap the returned DataFrame to add the writeExcel method
+    return WrappedDataFrame(newDf);
+  };
+
   // Extend the `withColumns` method
   const originalWithColumns = instance.withColumns.bind(instance);
 
   instance.withColumns = function (
-    columns: originalPl.Series | originalPl.Expr,
+    ...columns: (originalPl.Series | originalPl.Expr)[]
   ): ExtendedDataFrame {
     // Call the original withColumns method
-    const newDf = originalWithColumns(columns);
+    const newDf = originalWithColumns(...columns);
 
     // Wrap the returned DataFrame to add the writeExcel method
     return WrappedDataFrame(newDf);
