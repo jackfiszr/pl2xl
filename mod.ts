@@ -23,31 +23,26 @@ const WrappedDataFrame = function (
     };
   }
 
-  // Extend the `withColumn` method
-  const originalWithColumn = instance.withColumn.bind(instance);
+  // Extend the methods that return a new DataFrame
+  (["withColumn", "withColumns"] as Array<keyof ExtendedDataFrame>).forEach(
+    (method) => {
+      const originalMethod = instance[method].bind(instance);
 
-  instance.withColumn = function (
-    columns: originalPl.Series | originalPl.Expr,
-  ): ExtendedDataFrame {
-    // Call the original withColumn method
-    const newDf = originalWithColumn(columns);
+      Object.defineProperty(instance, method, {
+        value: function (
+          ...args: Parameters<typeof originalMethod>
+        ): ExtendedDataFrame {
+          // Call the original method
+          const newDf = originalMethod(...args);
 
-    // Wrap the returned DataFrame to add the writeExcel method
-    return WrappedDataFrame(newDf);
-  };
-
-  // Extend the `withColumns` method
-  const originalWithColumns = instance.withColumns.bind(instance);
-
-  instance.withColumns = function (
-    ...columns: (originalPl.Series | originalPl.Expr)[]
-  ): ExtendedDataFrame {
-    // Call the original withColumns method
-    const newDf = originalWithColumns(...columns);
-
-    // Wrap the returned DataFrame to add the writeExcel method
-    return WrappedDataFrame(newDf);
-  };
+          // Wrap the returned DataFrame to add the writeExcel method
+          return WrappedDataFrame(newDf);
+        },
+        writable: true,
+        configurable: true,
+      });
+    },
+  );
 
   return instance;
 };
