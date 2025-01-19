@@ -65,6 +65,7 @@ const extendedPl = {
     // Wrap the returned DataFrame to add the writeExcel method
     return WrappedDataFrame(df);
   },
+  writeExcel,
 };
 
 export { readExcel, writeExcel };

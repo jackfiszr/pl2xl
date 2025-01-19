@@ -1,4 +1,3 @@
-import { writeExcel } from "@jackfiszr/pl2xl";
 import pl from "./mod.ts";
 
 // Create a sample DataFrame
@@ -26,7 +25,7 @@ console.log("Modified DataFrame written to output.xlsx");
 
 // Create multiple DataFrames, one of which is empty
 const emptyDf = pl.DataFrame([]);
-await writeExcel([inputDf, modifiedDf, emptyDf], "multiple_sheets.xlsx", {
+await pl.writeExcel([inputDf, modifiedDf, emptyDf], "multiple_sheets.xlsx", {
   sheetName: ["Input", "Modified", "Empty"],
 });
 console.log("Multiple DataFrames written to multiple_sheets.xlsx");
