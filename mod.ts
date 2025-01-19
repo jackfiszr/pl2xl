@@ -11,9 +11,11 @@ import type {
 const WrappedDataFrame = function (
   ...args: Parameters<typeof originalPl.DataFrame>
 ): ExtendedDataFrame {
-  const instance = originalPl.DataFrame(...args) as ExtendedDataFrame;
+  const instance = originalPl.DataFrame(
+    ...args,
+  ) as unknown as ExtendedDataFrame;
 
-  // Add the `writeExcel` method if it doesn't exist
+  // Add the `writeExcel` method
   if (!instance.writeExcel) {
     instance.writeExcel = async function (
       filePath: string,
@@ -23,7 +25,7 @@ const WrappedDataFrame = function (
     };
   }
 
-  // Extend the methods that return a new DataFrame
+  // Wrap methods that return a new DataFrame
   ([
     "clone",
     "describe",
@@ -33,60 +35,41 @@ const WrappedDataFrame = function (
     "extend",
     "fillNull",
     "filter",
-    "frameEqual",
     "head",
     "hstack",
     "interpolate",
     "join",
     "joinAsof",
-    // "lazy",
     "limit",
     "max",
     "mean",
     "median",
-    "unpivot",
     "min",
-    "nullCount",
-    "partitionBy",
     "pivot",
-    "quantile",
     "rechunk",
     "rename",
     "select",
     "shift",
-    "shiftAndFill",
-    "shrinkToFit",
     "slice",
     "sort",
-    "std",
     "sum",
     "tail",
     "transpose",
     "unique",
-    "unnest",
-    "var",
     "vstack",
     "withColumn",
     "withColumns",
     "withColumnRenamed",
     "withRowCount",
     "where",
-    "upsample",
-  ] as Array<
-    keyof ExtendedDataFrame
-  >)
+  ] as Array<keyof Omit<ExtendedDataFrame, "writeExcel">>)
     .forEach(
       (method) => {
-        const originalMethod = instance[method].bind(instance);
+        const originalMethod = (instance[method] as Function).bind(instance);
 
         Object.defineProperty(instance, method, {
-          value: function (
-            ...args: Parameters<typeof originalMethod>
-          ): ExtendedDataFrame {
-            // Call the original method
+          value: function (...args: any[]): ExtendedDataFrame {
             const newDf = originalMethod(...args);
-
-            // Wrap the returned DataFrame to add the writeExcel method
             return WrappedDataFrame(newDf);
           },
           writable: true,
