@@ -7,7 +7,72 @@ import type {
   WriteExcelOptions,
 } from "./types.d.ts";
 
-// Wrap the original DataFrame factory to add the `writeExcel` method
+/**
+ * A wrapper function for the original DataFrame constructor from the `nodejs-polars` library.
+ * This function ensures that the `writeExcel` method is available on the DataFrame instance.
+ *
+ * @param {...Parameters<typeof originalPl.DataFrame>} args - The arguments to be passed to the original DataFrame constructor.
+ * @returns {ExtendedDataFrame} - The extended DataFrame instance with `writeExcel` method.
+ *
+ * @remarks
+ * This function dynamically adds the `writeExcel` method to the DataFrame instance if it doesn't already exist.
+ * It also extends various DataFrame methods to ensure that any new DataFrame returned by these methods
+ * also includes the `writeExcel` method.
+ *
+ * The methods extended include:
+ * - clone
+ * - describe
+ * - drop
+ * - dropNulls
+ * - explode
+ * - extend
+ * - fillNull
+ * - filter
+ * - frameEqual
+ * - head
+ * - hstack
+ * - interpolate
+ * - join
+ * - joinAsof
+ * - limit
+ * - max
+ * - mean
+ * - median
+ * - unpivot
+ * - min
+ * - nullCount
+ * - partitionBy
+ * - pivot
+ * - quantile
+ * - rechunk
+ * - rename
+ * - select
+ * - shift
+ * - shiftAndFill
+ * - shrinkToFit
+ * - slice
+ * - sort
+ * - std
+ * - sum
+ * - tail
+ * - transpose
+ * - unique
+ * - unnest
+ * - var
+ * - vstack
+ * - withColumn
+ * - withColumns
+ * - withColumnRenamed
+ * - withRowCount
+ * - where
+ * - upsample
+ *
+ * @example
+ * ```typescript
+ * const df = WrappedDataFrame(data);
+ * await df.writeExcel('output.xlsx');
+ * ```
+ */
 const WrappedDataFrame = function (
   ...args: Parameters<typeof originalPl.DataFrame>
 ): ExtendedDataFrame {
