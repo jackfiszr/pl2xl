@@ -1,4 +1,4 @@
-# pl2xl
+# pl2xl <small>Extended Polars Library with Excel Support</small>
 
 [![JSR](https://jsr.io/badges/@jackfiszr/pl2xl)](https://jsr.io/@jackfiszr/pl2xl)
 [![JSR Score](https://jsr.io/badges/@jackfiszr/pl2xl/score)](https://jsr.io/@jackfiszr/pl2xl)
@@ -6,169 +6,175 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/jackfiszr/pl2xl)](https://github.com/jackfiszr/pl2xl/commits/main)
 [![GitHub](https://img.shields.io/github/license/jackfiszr/pl2xl)](https://github.com/jackfiszr/pl2xl/blob/main/LICENSE)
 
-A lightweight library for reading and writing Excel files as Polars DataFrames.\
-`pl2xl` enables seamless integration between Polars and Excel, allowing you to:
-
-- Import data from Excel files directly into a Polars DataFrame.
-- Export Polars DataFrames back to Excel files, with optional Excel formatting.
-
-## Installation
-
-This library can be imported using the `jsr` import specifier and relies on the
-`nodejs-polars` package.
-
-### Importing the library in Deno
+## `pl.readExcel`
 
 ```typescript
-import { readExcel, writeExcel } from "jsr:@jackfiszr/pl2xl@0.0.12";
-import pl from "npm:nodejs-polars";
+pl.readExcel(
+    filePath: string,
+    options?: {
+        sheetName?: string | null,
+        inferSchemaLength?: number,
+    },
+) → ExtendedDataFrame
 ```
 
-### Using the library in Node.js
+Reads an Excel file and converts the specified worksheet into an
+`ExtendedDataFrame` (a `DataFrame` that has the `writeExcel` method).
 
-Install the library in your Node project using `npx jsr`:
+### Parameters
 
-```bash
-npx jsr add @jackfiszr/pl2xl
-```
+- **filePath** (string):\
+  The path to the Excel file to be read.
 
-Then import and use it as follows:
+- **options** (object, optional):\
+  A dictionary containing additional options:
+  - **sheetName** (string | null, optional):\
+    The name of the worksheet to read. Defaults to the first worksheet if not
+    specified.
+  - **inferSchemaLength** (number, optional):\
+    The number of rows to infer the schema from. Defaults to 100.
+
+### Returns
+
+- **ExtendedDataFrame**:\
+  A DataFrame containing the data from the specified worksheet.
+
+### Example
 
 ```typescript
-import { readExcel, writeExcel } from "@jackfiszr/pl2xl";
-import pl from "nodejs-polars";
+import pl from "jsr:@jackfiszr/pl2xl@0.1.0";
 
-// Create a sample DataFrame
-const inputDf = pl.DataFrame({
-  Name: ["Alice", "Bob", "Charlie"],
-  Age: [25, 30, 35],
-  City: ["New York", "Los Angeles", "Chicago"],
-});
-
-// Write the DataFrame to an Excel file
-await writeExcel(inputDf, "input.xlsx");
-
-// Read the DataFrame back from the Excel file
-const df = await readExcel("input.xlsx");
-console.log("Read DataFrame:", df.toString());
-
-// Modify the DataFrame by increasing the "Age" column by 1
-const modifiedDf = df.withColumn(pl.col("Age").add(1).alias("Age"));
-
-console.log("Modified DataFrame:", modifiedDf.toString());
-
-// Write the modified DataFrame to a new Excel file
-await writeExcel(modifiedDf, "output.xlsx");
-console.log("Modified DataFrame written to output.xlsx");
-
-// Create multiple DataFrames, one of which is empty
-const emptyDf = pl.DataFrame([]);
-await writeExcel([inputDf, modifiedDf, emptyDf], "multiple_sheets.xlsx", {
-  sheetName: ["Input", "Modified", "Empty"],
-});
-console.log("Multiple DataFrames written to multiple_sheets.xlsx");
+const df = await pl.readExcel("data.xlsx", { sheetName: "Sheet1" });
+console.log(df.toString());
 ```
 
-## API
+---
 
-### `readExcel(filePath: string, options?: { sheetName?: string[], inferSchemaLength?: number }): Promise<pl.DataFrame>`
+## `pl.DataFrame.writeExcel`
 
-Reads data from an Excel file and returns it as a Polars DataFrame.
+```typescript
+pl.DataFrame.writeExcel(
+    filePath: string,
+    options?: {
+        sheetName?: string | string[],
+        includeHeader?: boolean,
+        autofitColumns?: boolean,
+        tableStyle?: string,
+        header?: string,
+        footer?: string,
+        withWorkbook?: (workbook: ExcelJS.Workbook) => void,
+    },
+) → Promise<void>
+```
 
-- **`filePath`**: The path to the Excel file to be read.
-- **`options`** _(optional)_:
-  - **`sheetName`**: The name(s) of the sheet(s) to read. If not provided, the
-    first sheet will be read.
-  - **`inferSchemaLength`**: The number of rows to infer the schema from.
-    Defaults to `100`.
+Writes the dataframe to an Excel `xlsx` file.
 
-**Key Behavior**:
+### Parameters
 
-- Empty cells in Excel are interpreted by ExcelJS as empty strings. Since `null`
-  is the appropriate representation for missing values in DataFrames,
-  `readExcel` automatically converts empty strings returned by ExcelJS into
-  `null` values.
+- **filePath** (string):\
+  The path where the Excel file will be saved.
 
-**Returns**: A `Promise` that resolves to a `pl.DataFrame` containing the data
-from the Excel sheet.
+- **options** (object, optional):\
+  A dictionary containing additional options:
+  - **sheetName** (string | string[], optional):\
+    Name(s) of the worksheet(s). Defaults to `Sheet1`, `Sheet2`, etc.
+  - **includeHeader** (boolean, optional):\
+    Whether to include column headers in the Excel file. Defaults to `true`.
+  - **autofitColumns** (boolean, optional):\
+    Whether to auto-fit the columns based on content. Defaults to `true`.
+  - **tableStyle** (string, optional):\
+    The style to apply to the table(s) in the Excel file.
+  - **header** (string, optional):\
+    The header text to add at the top of each worksheet.
+  - **footer** (string, optional):\
+    The footer text to add at the bottom of each worksheet.
+  - **withWorkbook** (function, optional):\
+    A callback function that receives the `ExcelJS.Workbook` instance for
+    additional customization.
 
-**Throws**: Will throw an error if the specified worksheet is not found.
+### Returns
+
+- **Promise<void>**:\
+  A promise that resolves when the Excel file has been written.
+
+### Example
+
+```typescript
+import pl from "jsr:@jackfiszr/pl2xl@0.1.0";
+
+const df = pl.DataFrame({
+  Name: ["Alice", "Bob"],
+  Age: [25, 30],
+});
+
+await df.writeExcel("output.xlsx", {
+  sheetName: "People",
+  includeHeader: true,
+  autofitColumns: true,
+});
+```
+
+## `pl.writeExcel` <small>(for writing multiple dataframes to separate worksheets)</small>
+
+```typescript
+pl.writeExcel(
+    df: ExtendedDataFrame | ExtendedDataFrame[],
+    filePath: string,
+    options?: {
+        sheetName?: string | string[],
+        includeHeader?: boolean,
+        autofitColumns?: boolean,
+        tableStyle?: string,
+        header?: string,
+        footer?: string,
+        withWorkbook?: (workbook: ExcelJS.Workbook) => void,
+    },
+) → Promise<void>
+```
+
+Writes one or more Polars `ExtendedDataFrame` objects to an Excel file.
+
+### Parameters
+
+Has one additional parameter that is the first parameter:
+
+- **df** (ExtendedDataFrame | ExtendedDataFrame[]):\
+  The DataFrame(s) to write to the Excel file.
+
+### Returns
+
+- **Promise<void>**:\
+  A promise that resolves when the Excel file has been written.
+
+### Example
+
+```typescript
+import pl from "jsr:@jackfiszr/pl2xl@0.1.0";
+
+const df1 = pl.DataFrame({
+  Name: ["Alice", "Bob"],
+  Age: [25, 30],
+});
+
+const df2 = pl.DataFrame({
+  Name: ["Cat", "Dog"],
+  Age: [14, 10],
+});
+
+await pl.writeExcel([df1, df2], "output.xlsx", {
+  sheetName: ["People", "Animals"],
+});
+```
 
 ---
 
-### `writeExcel(df: pl.DataFrame | pl.DataFrame[], filePath: string, options?: { sheetName?: string | string[]; includeHeader?: boolean; autofitColumns?: boolean; tableStyle?: TableStyle, header?: string, footer?: string, withWorkbook?: (workbook: ExcelJS.Workbook) => void }): Promise<void>`
+## nodejs-polars
 
-Writes one or more Polars DataFrames to an Excel file, with optional styling and
-formatting.
-
-- **`df`**: A Polars DataFrame or an array of DataFrames to write to the file.
-- **`filePath`**: The path to save the Excel file.
-- **`options`** _(optional)_:
-  - **`sheetName`**: The name(s) of the sheets to write to. Can be a string (for
-    a single DataFrame) or an array of strings (for multiple DataFrames).
-    Defaults to sequential names like `"Sheet1"`, `"Sheet2"`, etc.
-  - **`includeHeader`**: Whether to include column headers. Defaults to `true`.
-  - **`autofitColumns`**: Whether to auto-fit columns based on their content.
-    Defaults to `true`.
-  - **`tableStyle`**: A style theme for formatting the table in the Excel sheet.
-  - **`header`**: - The header to add to the top of each page in the Excel file.
-  - **`footer`**: - The footer to add to the bottom of each page in the Excel
-    file.
-  - **`withWorkbook`**: A function that receives the ExcelJS `workbook` object
-    for further customization.
-
-**Key Behavior**:
-
-- If all DataFrames are empty, the function throws an error to prevent writing
-  an Excel file with no meaningful content.
-- If some DataFrames are empty, they are skipped, and a warning is logged for
-  each skipped DataFrame. Non-empty DataFrames are written as expected.
-- The `options.withWorkbook` parameter allows further customization of the
-  workbook using the ExcelJS API.
-
-**Returns**: A `Promise` that resolves when the file is successfully written.
-
----
-
-## Requirements
-
-- **Deno** (for Deno usage) or **Node.js** (for Node usage).
-- `nodejs-polars` for Polars DataFrame support.
-- `@tinkie101/exceljs-wrapper` as a wrapper for `ExcelJS`.
-
-## Key Features
-
-- Support for reading specific sheets from Excel files.
-- Automatically converts empty cells interpreted by ExcelJS as empty strings to
-  `null` for compatibility with Polars DataFrames.
-- Optional column auto-fitting when writing DataFrames to Excel.
-- Ability to write multiple DataFrames into separate worksheets.
-- Skips empty DataFrames when writing, with warnings for each skipped sheet.
-- Full compatibility with Polars DataFrames for seamless data manipulation.
-- Options for customizing headers, autofit, and table styling when writing Excel
-  files.
-- Exposes the `workbook` object for further customization using the ExcelJS API
-  through the `options.withWorkbook` parameter.
-- Ensured strict type safety with TypeScript best practices.
-
----
-
-## Key Changes
-
-- Added support for writing multiple DataFrames into separate worksheets.
-- Introduced dynamic handling of sheet names for multiple DataFrames.
-- Empty cells in Excel are now automatically converted to `null` values for
-  consistency in DataFrame processing.
-- Skips empty DataFrames during writing, throwing an error only if all provided
-  DataFrames are empty.
-- Options for customizing headers, autofit, and table styling when writing Excel
-  files.
-- Exposes the `workbook` object for further customization using the ExcelJS API
-  through the `options.withWorkbook` parameter.
-- Ensured strict type safety with TypeScript best practices.
-
----
+For the core functionality of the library, please refer to the official
+[nodejs-polars](https://pola-rs.github.io/nodejs-polars/index.html)
+documentation.
 
 ## License
 
-GNU GENERAL PUBLIC LICENSE 3.0
+This library is open-source and distributed under the GNU GENERAL PUBLIC LICENSE
+3.0.
