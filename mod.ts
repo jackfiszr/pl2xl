@@ -24,25 +24,76 @@ const WrappedDataFrame = function (
   }
 
   // Extend the methods that return a new DataFrame
-  (["withColumn", "withColumns"] as Array<keyof ExtendedDataFrame>).forEach(
-    (method) => {
-      const originalMethod = instance[method].bind(instance);
+  ([
+    "clone",
+    "describe",
+    "drop",
+    "dropNulls",
+    "explode",
+    "extend",
+    "fillNull",
+    "filter",
+    "frameEqual",
+    "head",
+    "hstack",
+    "interpolate",
+    "join",
+    "joinAsof",
+    // "lazy",
+    "limit",
+    "max",
+    "mean",
+    "median",
+    "unpivot",
+    "min",
+    "nullCount",
+    "partitionBy",
+    "pivot",
+    "quantile",
+    "rechunk",
+    "rename",
+    "select",
+    "shift",
+    "shiftAndFill",
+    "shrinkToFit",
+    "slice",
+    "sort",
+    "std",
+    "sum",
+    "tail",
+    "transpose",
+    "unique",
+    "unnest",
+    "var",
+    "vstack",
+    "withColumn",
+    "withColumns",
+    "withColumnRenamed",
+    "withRowCount",
+    "where",
+    "upsample",
+  ] as Array<
+    keyof ExtendedDataFrame
+  >)
+    .forEach(
+      (method) => {
+        const originalMethod = instance[method].bind(instance);
 
-      Object.defineProperty(instance, method, {
-        value: function (
-          ...args: Parameters<typeof originalMethod>
-        ): ExtendedDataFrame {
-          // Call the original method
-          const newDf = originalMethod(...args);
+        Object.defineProperty(instance, method, {
+          value: function (
+            ...args: Parameters<typeof originalMethod>
+          ): ExtendedDataFrame {
+            // Call the original method
+            const newDf = originalMethod(...args);
 
-          // Wrap the returned DataFrame to add the writeExcel method
-          return WrappedDataFrame(newDf);
-        },
-        writable: true,
-        configurable: true,
-      });
-    },
-  );
+            // Wrap the returned DataFrame to add the writeExcel method
+            return WrappedDataFrame(newDf);
+          },
+          writable: true,
+          configurable: true,
+        });
+      },
+    );
 
   return instance;
 };

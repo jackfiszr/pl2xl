@@ -11,13 +11,6 @@ export type TableStyle = ExcelJS.TableStyleProperties["theme"];
 type ExcelSpreadsheetEngine = "exceljs" | "xslx";
 type SchemaDict = Record<string, unknown>;
 
-// deno-fmt-ignore
-export interface ExtendedDataFrame extends originalPl.DataFrame {
-  writeExcel: (filePath: string, options?: WriteExcelOptions) => Promise<void>;
-  withColumn: (columns: originalPl.Series | originalPl.Expr) => ExtendedDataFrame;
-  withColumns: (...columns: (originalPl.Expr | originalPl.Series)[]) => ExtendedDataFrame;
-}
-
 export interface ReadExcelOptions {
   sheetId?: number | null;
   sheetName?: string[] | [string] | null;
@@ -42,4 +35,15 @@ export interface WriteExcelOptions {
   header?: string;
   footer?: string;
   withWorkbook?: (workbook: ExcelJS.Workbook) => void;
+}
+
+// deno-fmt-ignore
+export interface ExtendedDataFrame extends originalPl.DataFrame {
+  writeExcel: (filePath: string, options?: WriteExcelOptions) => Promise<void>;
+
+  clone: () => ExtendedDataFrame;
+  describe: () => ExtendedDataFrame;
+
+  withColumn: (columns: originalPl.Series | originalPl.Expr) => ExtendedDataFrame;
+  withColumns: (...columns: (originalPl.Expr | originalPl.Series)[]) => ExtendedDataFrame;
 }
