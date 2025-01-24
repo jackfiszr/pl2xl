@@ -7,6 +7,8 @@ import type {
   WriteExcelOptions,
 } from "./types.d.ts";
 
+export type * from "polars";
+
 /**
  * A wrapper function for the original DataFrame constructor from the `nodejs-polars` library.
  * This function ensures that the `writeExcel` method is available on the DataFrame instance.
@@ -177,9 +179,10 @@ const extendedPl = {
     return WrappedDataFrame(df);
   },
   writeExcel,
+  ExtendedDataFrame: null as unknown as ExtendedDataFrame,
 };
 
-export { readExcel, writeExcel };
+export { type ExtendedDataFrame, readExcel, writeExcel };
 
 // Export the extended Polars object
 export default extendedPl;
