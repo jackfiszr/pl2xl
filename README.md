@@ -6,6 +6,14 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/jackfiszr/pl2xl)](https://github.com/jackfiszr/pl2xl/commits/main)
 [![GitHub](https://img.shields.io/github/license/jackfiszr/pl2xl)](https://github.com/jackfiszr/pl2xl/blob/main/LICENSE)
 
+This is a wrapper library around the
+[nodejs-polars](https://pola-rs.github.io/nodejs-polars/index.html) package that
+adds convenient `readExcel` and `writeExcel` methods for working with Excel
+files.
+
+For Excel operations, this library uses
+[ExcelJS](https://github.com/exceljs/exceljs).
+
 ## `pl.readExcel`
 
 ```typescript
