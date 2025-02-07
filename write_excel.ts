@@ -100,16 +100,26 @@ export async function writeExcel(
 
     // Auto-fit columns
     if (autofitColumns) {
+      const DEFAULT_COLUMN_WIDTH = 10;
+      const PADDING = 2;
+
       worksheet.columns.forEach((column) => {
-        if (column.values) {
-          column.width = Math.max(
-            ...column.values
-              .slice(1) // Skip the metadata slot
-              .map((value) => (value ? value.toString().length : 10)),
-          );
-        } else {
-          column.width = 10; // Default width
+        if (!column.values) {
+          column.width = DEFAULT_COLUMN_WIDTH;
+          return;
         }
+        // Extract values, ignoring null, undefined, and booleans
+        const textLengths: number[] = column.values
+          .slice(1) // Skip metadata slot
+          .filter((value): value is string | number =>
+            value !== null && value !== undefined && typeof value !== "boolean"
+          )
+          .map((value) => value.toString().length);
+
+        // Use default width if no valid values exist; otherwise, compute max width + padding
+        column.width = textLengths.length > 0
+          ? Math.max(...textLengths) + PADDING
+          : DEFAULT_COLUMN_WIDTH;
       });
     }
 
