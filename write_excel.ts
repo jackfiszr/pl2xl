@@ -71,32 +71,18 @@ export async function writeExcel(
 
     const worksheet = workbook.addWorksheet(currentSheetName);
 
-    // Add headers if needed
     const headers = includeHeader ? Object.keys(rows[0]) : [];
-    if (includeHeader) worksheet.addRow(headers);
 
-    // Add data rows
-    rows.forEach((row) => {
-      const values = headers.map((header) => row[header] ?? null);
-      worksheet.addRow(values);
+    worksheet.addTable({
+      name: `Table_${currentSheetName}`,
+      ref: worksheet.getCell(1, 1).address,
+      headerRow: includeHeader,
+      style: tableStyle
+        ? { theme: tableStyle, showRowStripes: true }
+        : { theme: "TableStyleLight1" },
+      columns: headers.map((header) => ({ name: header })),
+      rows: rows.map((row) => headers.map((header) => row[header] ?? null)),
     });
-
-    // Apply table style if provided
-    if (tableStyle && includeHeader) {
-      const tableRange = {
-        topLeft: worksheet.getCell(1, 1),
-        bottomRight: worksheet.getCell(rows.length + 1, headers.length),
-      };
-
-      worksheet.addTable({
-        name: `Table_${currentSheetName}`,
-        ref: tableRange.topLeft.address,
-        headerRow: true,
-        style: { theme: tableStyle },
-        columns: headers.map((header) => ({ name: header })),
-        rows: rows.map((row) => headers.map((header) => row[header] ?? null)),
-      });
-    }
 
     // Auto-fit columns
     if (autofitColumns) {
