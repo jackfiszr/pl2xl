@@ -9,7 +9,7 @@ import type {
 
 export type RowData = Record<
   string,
-  string | number | boolean | null | undefined
+  string | number | bigint | boolean | null | undefined
 >;
 
 export type TableStyle = ExcelJS.TableStyleProperties["theme"];
