@@ -7,8 +7,7 @@
     "jsr:@std/path@^1.0.8": "1.0.8",
     "jsr:@tinkie101/exceljs-wrapper@^1.0.2": "1.0.2",
     "npm:exceljs@^4.4.0": "4.4.0",
-    "npm:nodejs-polars@*": "0.17.0",
-    "npm:nodejs-polars@0.17": "0.17.0"
+    "npm:nodejs-polars@0.18": "0.18.0"
   },
   "jsr": {
     "@std/assert@1.0.11": {
@@ -363,32 +362,32 @@
         "minimist"
       ]
     },
-    "nodejs-polars-android-arm64@0.17.0": {
-      "integrity": "sha512-YwuZWVp+A8COLQ8ocxEdiqsD+3RbtBt5aT78Qq2sAQaV4dFJn7Y9aBsLDE6QuLPtP5qyb3vgk4cUk/aZKdnVLQ=="
+    "nodejs-polars-android-arm64@0.18.0": {
+      "integrity": "sha512-ksmL8X2xsMkI9WMlzRw7Mt7csIDfNJVDlyybSDMMAfO1YWfC2aCFUroFc8UnXVK+8bIZXB7W+k1ZzTRhtSxPsQ=="
     },
-    "nodejs-polars-darwin-arm64@0.17.0": {
-      "integrity": "sha512-zVMpq2nHRT3/dY1a+IkGb88Q+aNg0C4kbWR8XKm+0yoRWp8L9/6+TDdt6UytaMq/EldjNRyNw8pDf6UgRWHKGg=="
+    "nodejs-polars-darwin-arm64@0.18.0": {
+      "integrity": "sha512-Hs8pbyPZCvOLSVoPx6X07vmYu1NmGAvLFYVHry945alesjsMOXZ//9D8psKOsZAh8WRU36CHXHSS18+RxdzLyA=="
     },
-    "nodejs-polars-darwin-x64@0.17.0": {
-      "integrity": "sha512-UG6Aa5sfRmT2ipMa5GONLkCnGwOU5to0SqKeIt2y/TgO2wQqfbdnZYkjD1Tic8nTPJaVX046uxX7wM5vAruftw=="
+    "nodejs-polars-darwin-x64@0.18.0": {
+      "integrity": "sha512-AmLHJ4a4ufTAFohr7b7cQmPvn1Owl6AQBwwows447GfwEO65lu0PSUcmJbeiGJcLtjM9Dji6uiJdadRnGXC4sw=="
     },
-    "nodejs-polars-linux-arm64-gnu@0.17.0": {
-      "integrity": "sha512-xFmXCgVHAob0VAf07AurLudpWlqlnH8KdYh6dlgeKBd6isanryDUhjU00jSZ54devL9xpZbEGyPw6WIu1KcBfQ=="
+    "nodejs-polars-linux-arm64-gnu@0.18.0": {
+      "integrity": "sha512-lqOA0b6XXd/8D0q4tfrlr9g+awN/lz1WoWlDJXlYDCXeEdiPzodHuKOROi/J8cwcM6RpiWLWviFkJ2FkxZBv7w=="
     },
-    "nodejs-polars-linux-arm64-musl@0.17.0": {
-      "integrity": "sha512-9faEi/rKaszjSZz9LNrcaCh5VNaeQeS2yONL4bw/yfWIaTfCWfQaEBrD5widBPpQbAASwSVW7UcQglYUw1+KvQ=="
+    "nodejs-polars-linux-arm64-musl@0.18.0": {
+      "integrity": "sha512-lylaOGB3c94UBpsDt4XtrS2RJymgICfAnMVlbvN+2bftejh7blDaYTJeLvZr4POHfltpWeSXjl28Zck7goDJCA=="
     },
-    "nodejs-polars-linux-x64-gnu@0.17.0": {
-      "integrity": "sha512-nmHaEFqLUdD7Wyai9o2YiVR2V0/V9aYnNNTJquEQ8SF+VLlb53yzDyY3YwU8VEab/3ICWJ7zK9Y+av0P3uT6KA=="
+    "nodejs-polars-linux-x64-gnu@0.18.0": {
+      "integrity": "sha512-Gk6HJba0Hrea6yjDEj0u4jArWgry+s8/17g646vJdlcAWoaQYXDdfCseObGjtTqajVkFf2msrn76KWZ2Nadq5A=="
     },
-    "nodejs-polars-linux-x64-musl@0.17.0": {
-      "integrity": "sha512-qPt/NmevKva/JAanuqBV3ewWNog9LcX0gO+8iG32l1nxgyxrCjt6eFo5FumID20boF77pxigNT9qAqKLrBFaoA=="
+    "nodejs-polars-linux-x64-musl@0.18.0": {
+      "integrity": "sha512-KAb72TGTphCUfTZj1mMyDAJ+/3pgifAucWjdCr6aO3Jw4XHJVu6mMRhfDUZgIGWilpwADwPLHnqPjs+qydOoCg=="
     },
-    "nodejs-polars-win32-x64-msvc@0.17.0": {
-      "integrity": "sha512-EGocBfOlZHh8PceV6eHUGea2YPPJ2Kj78yokA7siRiFv8EN31b5ZMPEDQI2CNXbfAEoBRr/XpdC2gra3wQmBIA=="
+    "nodejs-polars-win32-x64-msvc@0.18.0": {
+      "integrity": "sha512-jQJST6yDmY/q4kBCCErSaxNrJClL7Dpk7IsdoPrFHXaFzL25nmDxfgow7VWDaEiE45jNL7TXANAgDs7dT61H2Q=="
     },
-    "nodejs-polars@0.17.0": {
-      "integrity": "sha512-B+grFa8yj5wuLk9IvGe0Z84jvJzq/jC8JRoXJS0/sWDgND07IQuzywf3qINVvINL9OrbrmGKVKvGLC4vdtFnog==",
+    "nodejs-polars@0.18.0": {
+      "integrity": "sha512-TN0InAOCzXS2Nrpr+8Sh9oAvILBjIoKMscz9P5XDJ+Q2F6EMb39Um9gwRzJ2kmEqYsufw6NwsafgbY41xKwVWg==",
       "dependencies": [
         "nodejs-polars-android-arm64",
         "nodejs-polars-darwin-arm64",
@@ -534,7 +533,7 @@
       "jsr:@std/assert@^1.0.11",
       "jsr:@std/fs@^1.0.11",
       "jsr:@tinkie101/exceljs-wrapper@^1.0.2",
-      "npm:nodejs-polars@0.17"
+      "npm:nodejs-polars@0.18"
     ]
   }
 }
