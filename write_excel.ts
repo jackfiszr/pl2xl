@@ -22,7 +22,7 @@ import type {
  * @returns A promise that resolves when the Excel file has been written.
  */
 export async function writeExcel(
-  df: ExtendedDataFrame | ExtendedDataFrame[],
+  df: ExtendedDataFrame<any> | ExtendedDataFrame<any>[],
   filePath: string,
   options: WriteExcelOptions = {},
 ): Promise<void> {

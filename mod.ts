@@ -77,8 +77,8 @@ export type * from "polars";
  */
 const WrappedDataFrame = function (
   ...args: Parameters<typeof originalPl.DataFrame>
-): ExtendedDataFrame {
-  const instance = originalPl.DataFrame(...args) as ExtendedDataFrame;
+): ExtendedDataFrame<any> {
+  const instance = originalPl.DataFrame(...args) as ExtendedDataFrame<any>;
 
   // Add the `writeExcel` method if it doesn't exist
   if (!instance.writeExcel) {
@@ -140,7 +140,7 @@ const WrappedDataFrame = function (
     "where",
     "upsample",
   ] as Array<
-    keyof ExtendedDataFrame
+    keyof ExtendedDataFrame<any>
   >)
     .forEach(
       (method) => {
@@ -149,7 +149,7 @@ const WrappedDataFrame = function (
         Object.defineProperty(instance, method, {
           value: function (
             ...args: Parameters<typeof originalMethod>
-          ): ExtendedDataFrame {
+          ): ExtendedDataFrame<any> {
             // Call the original method
             const newDf = originalMethod(...args);
 
@@ -172,14 +172,14 @@ const extendedPl = {
   readExcel: async function (
     filePath: string,
     options?: ReadExcelOptions,
-  ): Promise<ExtendedDataFrame> {
+  ): Promise<ExtendedDataFrame<any>> {
     const df = await readExcel(filePath, options);
 
     // Wrap the returned DataFrame to add the writeExcel method
     return WrappedDataFrame(df);
   },
   writeExcel,
-  ExtendedDataFrame: null as unknown as ExtendedDataFrame,
+  ExtendedDataFrame: null as unknown as ExtendedDataFrame<any>,
 };
 
 export { type ExtendedDataFrame, readExcel, writeExcel };

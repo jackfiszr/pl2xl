@@ -19,7 +19,7 @@ import type {
 export async function readExcel(
   filePath: string,
   options: ReadExcelOptions = {},
-): Promise<ExtendedDataFrame> {
+): Promise<ExtendedDataFrame<any>> {
   const {
     sheetName = null,
     inferSchemaLength = 100,

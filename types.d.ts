@@ -4,6 +4,7 @@ import type {
   ColumnSelection,
   ColumnsOrExpr,
   ExprOrString,
+  Simplify,
   ValueOrArray,
 } from "polars/utils.ts";
 
@@ -47,7 +48,9 @@ export interface WriteExcelOptions {
  * ExtendedDataFrame interface extends the original nodejs-polars DataFrame with `writeExcel` method
  * and overrides the methods that take/return DataFrame to take/return the ExtendedDataFrame instead.
  */
-export interface ExtendedDataFrame extends originalPl.DataFrame {
+export interface ExtendedDataFrame<
+  T extends Record<string, originalPl.Series> = any,
+> extends originalPl.DataFrame<T> {
   /**
    * Writes the DataFrame to an Excel file.
    * @param filePath - The path to the Excel file.
@@ -60,13 +63,13 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * Creates a deep copy of the DataFrame.
    * @returns A new instance of the DataFrame.
    */
-  clone(): any;
+  clone(): ExtendedDataFrame<T>;
 
   /**
    * Generates descriptive statistics of the DataFrame.
    * @returns The DataFrame with descriptive statistics.
    */
-  describe(): any;
+  describe(): this;
 
   /**
    * Drops the specified column(s) from the DataFrame.
@@ -74,8 +77,8 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param names - Additional column names to drop.
    * @returns The DataFrame without the specified column(s).
    */
-  drop<U extends string>(name: U): any;
-  drop<const U extends string[]>(names: U): any;
+  drop<U extends string>(name: U): this;
+  drop<const U extends string[]>(names: U): this;
   drop<U extends string, const V extends string[]>(name: U, ...names: V): any;
 
   /**
@@ -84,9 +87,9 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param columns - Additional column names to check for null values.
    * @returns The DataFrame without rows containing null values in the specified column(s).
    */
-  dropNulls(column: string): any;
-  dropNulls(columns: string[]): any;
-  dropNulls(...columns: string[]): any;
+  dropNulls(column: string): ExtendedDataFrame<T>;
+  dropNulls(columns: string[]): ExtendedDataFrame<T>;
+  dropNulls(...columns: string[]): ExtendedDataFrame<T>;
 
   /**
    * Explodes the specified column(s) into multiple rows.
@@ -94,30 +97,30 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param columns - Additional columns to explode.
    * @returns The DataFrame with exploded columns.
    */
-  explode(column: ExprOrString): any;
-  explode(columns: ExprOrString[]): any;
-  explode(column: ExprOrString, ...columns: ExprOrString[]): any;
+  explode(column: ExprOrString): this;
+  explode(columns: ExprOrString[]): this;
+  explode(column: ExprOrString, ...columns: ExprOrString[]): this;
 
   /**
    * Extends the DataFrame with another DataFrame.
    * @param other - The DataFrame to extend with.
    * @returns The extended DataFrame.
    */
-  extend(other: any): any;
+  extend(other: ExtendedDataFrame<T>): ExtendedDataFrame<T>;
 
   /**
    * Fills null values in the DataFrame using the specified strategy.
    * @param strategy - The strategy to use for filling null values.
    * @returns The DataFrame with null values filled.
    */
-  fillNull(strategy: originalPl.FillNullStrategy): any;
+  fillNull(strategy: originalPl.FillNullStrategy): ExtendedDataFrame<T>;
 
   /**
    * Filters the DataFrame based on the specified predicate.
    * @param predicate - The predicate to use for filtering.
    * @returns The filtered DataFrame.
    */
-  filter(predicate: any): any;
+  filter(predicate: any): ExtendedDataFrame<T>;
 
   /**
    * Compares the DataFrame with another DataFrame for equality.
@@ -125,15 +128,15 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param nullEqual - Whether to consider null values as equal.
    * @returns True if the DataFrames are equal, otherwise false.
    */
-  frameEqual(other: any): boolean;
-  frameEqual(other: any, nullEqual: boolean): boolean;
+  frameEqual(other: this): boolean;
+  frameEqual(other: this, nullEqual: boolean): boolean;
 
   /**
    * Returns the first `length` rows of the DataFrame.
    * @param length - The number of rows to return.
    * @returns The first `length` rows of the DataFrame.
    */
-  head(length?: number): any;
+  head(length?: number): ExtendedDataFrame<T>;
 
   /**
    * Horizontally stacks the specified columns to the DataFrame.
@@ -142,17 +145,17 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @returns The DataFrame with stacked columns.
    */
   hstack<U extends Record<string, originalPl.Series> = any>(
-    columns: any,
-  ): any;
-  hstack<U extends originalPl.Series[]>(columns: U): any;
-  hstack(columns: Array<originalPl.Series> | any): any;
-  hstack(columns: Array<originalPl.Series> | any, inPlace?: boolean): void;
+    columns: this,
+  ): this;
+  hstack<U extends originalPl.Series[]>(columns: U): this;
+  hstack(columns: Array<originalPl.Series> | this): this;
+  hstack(columns: Array<originalPl.Series> | this, inPlace?: boolean): void;
 
   /**
    * Interpolates missing values in the DataFrame.
    * @returns The DataFrame with interpolated values.
    */
-  interpolate(): any;
+  interpolate(): ExtendedDataFrame<T>;
 
   /**
    * Joins the DataFrame with another DataFrame based on the specified options.
@@ -161,18 +164,18 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @returns The joined DataFrame.
    */
   join(
-    other: any,
+    other: this,
     options:
       & { on: ValueOrArray<string> }
       & Omit<originalPl.JoinOptions, "leftOn" | "rightOn">,
-  ): any;
+  ): this;
   join(
-    other: any,
+    other: this,
     options:
       & { leftOn: ValueOrArray<string>; rightOn: ValueOrArray<string> }
       & Omit<originalPl.JoinOptions, "on">,
-  ): any;
-  join(other: any, options: { how: "cross"; suffix?: string }): any;
+  ): this;
+  join(other: this, options: { how: "cross"; suffix?: string }): this;
 
   /**
    * Performs an asof join with another DataFrame based on the specified options.
@@ -181,7 +184,7 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @returns The joined DataFrame.
    */
   joinAsof(
-    other: any,
+    other: this,
     options: {
       leftOn?: string;
       rightOn?: string;
@@ -195,22 +198,22 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
       allowParallel?: boolean;
       forceParallel?: boolean;
     },
-  ): any;
+  ): this;
 
   /**
    * Limits the number of rows in the DataFrame.
    * @param length - The number of rows to limit to.
    * @returns The DataFrame with limited rows.
    */
-  limit(length?: number): any;
+  limit(length?: number): ExtendedDataFrame<T>;
 
   /**
    * Calculates the maximum value in the DataFrame.
    * @param axis - The axis to calculate the maximum value along.
    * @returns The DataFrame with the maximum value.
    */
-  max(): any;
-  max(axis: 0): any;
+  max(): ExtendedDataFrame<T>;
+  max(axis: 0): ExtendedDataFrame<T>;
   max(axis: 1): originalPl.Series;
 
   /**
@@ -219,8 +222,8 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param nullStrategy - The strategy to use for null values.
    * @returns The DataFrame with the mean value.
    */
-  mean(): any;
-  mean(axis: 0): any;
+  mean(): ExtendedDataFrame<T>;
+  mean(axis: 0): ExtendedDataFrame<T>;
   mean(axis: 1): originalPl.Series;
   mean(axis: 1, nullStrategy?: "ignore" | "propagate"): originalPl.Series;
 
@@ -228,7 +231,7 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * Calculates the median value in the DataFrame.
    * @returns The DataFrame with the median value.
    */
-  median(): any;
+  median(): ExtendedDataFrame<T>;
 
   /**
    * Unpivots the DataFrame from wide to long format.
@@ -236,15 +239,15 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param valueVars - The columns to use as value variables.
    * @returns The unpivoted DataFrame.
    */
-  unpivot(idVars: ColumnSelection, valueVars: ColumnSelection): any;
+  unpivot(idVars: ColumnSelection, valueVars: ColumnSelection): this;
 
   /**
    * Calculates the minimum value in the DataFrame.
    * @param axis - The axis to calculate the minimum value along.
    * @returns The DataFrame with the minimum value.
    */
-  min(): any;
-  min(axis: 0): any;
+  min(): ExtendedDataFrame<T>;
+  min(axis: 0): ExtendedDataFrame<T>;
   min(axis: 1): originalPl.Series;
 
   /**
@@ -265,12 +268,12 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
     cols: string | string[],
     stable?: boolean,
     includeKey?: boolean,
-  ): any[];
+  ): ExtendedDataFrame<T>[];
   partitionBy<T>(
     cols: string | string[],
     stable: boolean,
     includeKey: boolean,
-    mapFn: (df: any) => T,
+    mapFn: (df: this) => T,
   ): T[];
 
   /**
@@ -298,7 +301,7 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
       sortColumns?: boolean;
       separator?: string;
     },
-  ): any;
+  ): this;
   pivot(options: {
     values: string | string[];
     index: string | string[];
@@ -316,20 +319,20 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
     maintainOrder?: boolean;
     sortColumns?: boolean;
     separator?: string;
-  }): any;
+  }): this;
 
   /**
    * Calculates the quantile value in the DataFrame.
    * @param quantile - The quantile to calculate.
    * @returns The DataFrame with the quantile value.
    */
-  quantile(quantile: number): any;
+  quantile(quantile: number): ExtendedDataFrame<T>;
 
   /**
    * Rechunks the DataFrame to improve performance.
    * @returns The rechunked DataFrame.
    */
-  rechunk(): any;
+  rechunk(): ExtendedDataFrame<T>;
 
   /**
    * Renames columns in the DataFrame based on the specified mapping.
@@ -337,23 +340,25 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @returns The DataFrame with renamed columns.
    */
   rename<const U extends Partial<Record<string, string>>>(mapping: U): any;
-  rename(mapping: Record<string, string>): any;
+  rename(mapping: Record<string, string>): this;
 
   /**
    * Selects the specified columns from the DataFrame.
    * @param columns - The columns to select.
    * @returns The DataFrame with selected columns.
    */
-  select<U extends string>(...columns: U[]): any;
-  select(...columns: ExprOrString[]): any;
+  select<U extends keyof T>(
+    ...columns: U[]
+  ): ExtendedDataFrame<{ [P in U]: T[P] }>;
+  select(...columns: ExprOrString[]): ExtendedDataFrame<T>;
 
   /**
    * Shifts the values in the DataFrame by the specified number of periods.
    * @param periods - The number of periods to shift.
    * @returns The DataFrame with shifted values.
    */
-  shift(periods: number): any;
-  shift({ periods }: { periods: number }): any;
+  shift(periods: number): ExtendedDataFrame<T>;
+  shift({ periods }: { periods: number }): ExtendedDataFrame<T>;
 
   /**
    * Shifts the values in the DataFrame by the specified number of periods and fills the empty spaces with the specified value.
@@ -361,15 +366,17 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param fillValue - The value to fill the empty spaces with.
    * @returns The DataFrame with shifted and filled values.
    */
-  shiftAndFill(n: number, fillValue: number): any;
-  shiftAndFill({ n, fillValue }: { n: number; fillValue: number }): any;
+  shiftAndFill(n: number, fillValue: number): ExtendedDataFrame<T>;
+  shiftAndFill(
+    { n, fillValue }: { n: number; fillValue: number },
+  ): ExtendedDataFrame<T>;
 
   /**
    * Shrinks the DataFrame to fit its contents.
    * @param inPlace - Whether to perform the operation in place.
    * @returns The DataFrame with reduced memory usage.
    */
-  shrinkToFit(): any;
+  shrinkToFit(): ExtendedDataFrame<T>;
   shrinkToFit(inPlace: true): void;
   shrinkToFit({ inPlace }: { inPlace: true }): void;
 
@@ -379,8 +386,10 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param length - The number of rows to include in the slice.
    * @returns The sliced DataFrame.
    */
-  slice({ offset, length }: { offset: number; length: number }): any;
-  slice(offset: number, length: number): any;
+  slice(
+    { offset, length }: { offset: number; length: number },
+  ): ExtendedDataFrame<T>;
+  slice(offset: number, length: number): ExtendedDataFrame<T>;
 
   /**
    * Sorts the DataFrame by the specified columns or expressions.
@@ -395,7 +404,7 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
     descending?: boolean,
     nullsLast?: boolean,
     maintainOrder?: boolean,
-  ): any;
+  ): ExtendedDataFrame<T>;
   sort({
     by,
     reverse, // deprecated
@@ -406,7 +415,7 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
     reverse?: boolean; // deprecated
     nullsLast?: boolean;
     maintainOrder?: boolean;
-  }): any;
+  }): ExtendedDataFrame<T>;
   sort({
     by,
     descending,
@@ -416,13 +425,13 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
     descending?: boolean;
     nullsLast?: boolean;
     maintainOrder?: boolean;
-  }): any;
+  }): ExtendedDataFrame<T>;
 
   /**
    * Calculates the standard deviation in the DataFrame.
    * @returns The DataFrame with the standard deviation.
    */
-  std(): any;
+  std(): ExtendedDataFrame<T>;
 
   /**
    * Calculates the sum of values in the DataFrame.
@@ -430,8 +439,8 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param nullStrategy - The strategy to use for null values.
    * @returns The DataFrame with the sum of values.
    */
-  sum(): any;
-  sum(axis: 0): any;
+  sum(): ExtendedDataFrame<T>;
+  sum(axis: 0): ExtendedDataFrame<T>;
   sum(axis: 1): originalPl.Series;
   sum(axis: 1, nullStrategy?: "ignore" | "propagate"): originalPl.Series;
 
@@ -440,7 +449,7 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param length - The number of rows to return.
    * @returns The last `length` rows of the DataFrame.
    */
-  tail(length?: number): any;
+  tail(length?: number): ExtendedDataFrame<T>;
 
   /**
    * Transposes the DataFrame, swapping rows and columns.
@@ -451,7 +460,7 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
     includeHeader?: boolean;
     headerName?: string;
     columnNames?: Iterable<string>;
-  }): any;
+  }): this;
 
   /**
    * Returns a DataFrame with unique rows.
@@ -464,32 +473,32 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
     maintainOrder?: boolean,
     subset?: ColumnSelection,
     keep?: "first" | "last",
-  ): any;
+  ): ExtendedDataFrame<T>;
   unique(opts: {
     maintainOrder?: boolean;
     subset?: ColumnSelection;
     keep?: "first" | "last";
-  }): any;
+  }): ExtendedDataFrame<T>;
 
   /**
    * Unnests the specified columns in the DataFrame.
    * @param names - The names of the columns to unnest.
    * @returns The DataFrame with unnested columns.
    */
-  unnest(names: string | string[]): any;
+  unnest(names: string | string[]): this;
 
   /**
    * Calculates the variance in the DataFrame.
    * @returns The DataFrame with the variance.
    */
-  var(): any;
+  var(): ExtendedDataFrame<T>;
 
   /**
    * Vertically stacks another DataFrame to the current DataFrame.
    * @param df - The DataFrame to stack.
    * @returns The DataFrame with stacked rows.
    */
-  vstack(df: any): any;
+  vstack(df: ExtendedDataFrame<T>): ExtendedDataFrame<T>;
 
   /**
    * Adds a new column to the DataFrame.
@@ -501,15 +510,19 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
     SeriesNameT extends string,
   >(
     column: originalPl.Series<SeriesTypeT, SeriesNameT>,
-  ): any;
-  withColumn(column: originalPl.Series | originalPl.Expr): any;
+  ): ExtendedDataFrame<
+    Simplify<
+      T & { [K in SeriesNameT]: originalPl.Series<SeriesTypeT, SeriesNameT> }
+    >
+  >;
+  withColumn(column: originalPl.Series | originalPl.Expr): this;
 
   /**
    * Adds multiple columns to the DataFrame.
    * @param columns - The columns to add.
    * @returns The DataFrame with the new columns.
    */
-  withColumns(...columns: (originalPl.Expr | originalPl.Series)[]): any;
+  withColumns(...columns: (originalPl.Expr | originalPl.Series)[]): this;
 
   /**
    * Renames a column in the DataFrame.
@@ -517,30 +530,32 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
    * @param replacement - The new name of the column.
    * @returns The DataFrame with the renamed column.
    */
-  withColumnRenamed<Existing extends string, New extends string>(
+  withColumnRenamed<Existing extends keyof T, New extends string>(
     existingName: Existing,
     replacement: New,
-  ): any;
-  withColumnRenamed(existing: string, replacement: string): any;
+  ): ExtendedDataFrame<
+    { [K in keyof T as K extends Existing ? New : K]: T[K] }
+  >;
+  withColumnRenamed(existing: string, replacement: string): this;
   withColumnRenamed<Existing extends string, New extends string>(opts: {
     existingName: Existing;
     replacement: New;
   }): any;
-  withColumnRenamed(opts: { existing: string; replacement: string }): any;
+  withColumnRenamed(opts: { existing: string; replacement: string }): this;
 
   /**
    * Adds a row count column to the DataFrame.
    * @param name - The name of the row count column.
    * @returns The DataFrame with the row count column.
    */
-  withRowCount(name?: string): any;
+  withRowCount(name?: string): this;
 
   /**
    * Filters the DataFrame based on the specified predicate.
    * @param predicate - The predicate to use for filtering.
    * @returns The filtered DataFrame.
    */
-  where(predicate: any): any;
+  where(predicate: any): ExtendedDataFrame<T>;
 
   /**
    * Upsamples the DataFrame based on the specified time column and interval.
@@ -555,11 +570,11 @@ export interface ExtendedDataFrame extends originalPl.DataFrame {
     every: string,
     by?: string | string[],
     maintainOrder?: boolean,
-  ): any;
+  ): ExtendedDataFrame<T>;
   upsample(opts: {
     timeColumn: string;
     every: string;
     by?: string | string[];
     maintainOrder?: boolean;
-  }): any;
+  }): ExtendedDataFrame<T>;
 }
