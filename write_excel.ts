@@ -87,6 +87,7 @@ export async function writeExcel(
     // Auto-fit columns
     if (autofitColumns) {
       const DEFAULT_COLUMN_WIDTH = 10;
+      const BOOLEAN_WIDTH = 8;
       const PADDING = 2;
 
       worksheet.columns.forEach((column) => {
@@ -94,13 +95,18 @@ export async function writeExcel(
           column.width = DEFAULT_COLUMN_WIDTH;
           return;
         }
-        // Extract values, ignoring null, undefined, and booleans
+        // Extract values, ignoring null and undefined
         const textLengths: number[] = column.values
           .slice(1) // Skip metadata slot
           .filter((value): value is string | number =>
-            value !== null && value !== undefined && typeof value !== "boolean"
+            value !== null && value !== undefined
           )
-          .map((value) => value.toString().length);
+          .map((
+            value,
+          ) => (typeof value === "boolean"
+            ? BOOLEAN_WIDTH
+            : value.toString().length)
+          );
 
         // Use default width if no valid values exist; otherwise, compute max width + padding
         column.width = textLengths.length > 0
