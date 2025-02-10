@@ -50,7 +50,7 @@ Reads an Excel file and converts the specified worksheet into an
 ### Example
 
 ```typescript
-import pl from "jsr:@jackfiszr/pl2xl@0.1.2";
+import pl from "jsr:@jackfiszr/pl2xl@0.1.3";
 
 const df = await pl.readExcel("data.xlsx", { sheetName: "Sheet1" });
 console.log(df.toString());
@@ -108,7 +108,7 @@ Writes the dataframe to an Excel `xlsx` file.
 ### Example
 
 ```typescript
-import pl from "jsr:@jackfiszr/pl2xl@0.1.2";
+import pl from "jsr:@jackfiszr/pl2xl@0.1.3";
 
 const df = pl.DataFrame({
   Name: ["Alice", "Bob"],
@@ -157,7 +157,7 @@ Has one additional parameter that is the first parameter:
 ### Example
 
 ```typescript
-import pl from "jsr:@jackfiszr/pl2xl@0.1.2";
+import pl from "jsr:@jackfiszr/pl2xl@0.1.3";
 
 const df1 = pl.DataFrame({
   Name: ["Alice", "Bob"],
