@@ -74,7 +74,7 @@ export async function writeExcel(
     const headers = includeHeader ? Object.keys(rows[0]) : [];
 
     worksheet.addTable({
-      name: `Table_${currentSheetName}`,
+      name: `Table_${currentSheetName.replaceAll(" ", "_")}`,
       ref: worksheet.getCell(1, 1).address,
       headerRow: includeHeader,
       style: tableStyle
