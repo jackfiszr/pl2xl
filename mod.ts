@@ -8,6 +8,7 @@ import type {
 } from "./types.d.ts";
 
 export type * from "polars";
+export type * from "./types.d.ts";
 
 /**
  * A wrapper function for the original DataFrame constructor from the `nodejs-polars` library.

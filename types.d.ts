@@ -6,7 +6,7 @@ import type {
   ExprOrString,
   Simplify,
   ValueOrArray,
-} from "polars/utils.ts";
+} from "polars/utils";
 
 export type RowData = Record<
   string,
