@@ -3,6 +3,7 @@ import { readExcel } from "./read_excel.ts";
 import { writeExcel } from "./write_excel.ts";
 import type {
   ExtendedDataFrame,
+  ExtendedPolars,
   ReadExcelOptions,
   WriteExcelOptions,
 } from "./types.d.ts";
@@ -75,10 +76,14 @@ export type * from "./types.d.ts";
  * await df.writeExcel('output.xlsx');
  * ```
  */
-const WrappedDataFrame = function (
+const WrappedDataFrame = function <
+  T extends Record<string, originalPl.Series<any, string>>,
+>(
   ...args: Parameters<typeof originalPl.DataFrame>
-): ExtendedDataFrame<any> {
-  const instance = originalPl.DataFrame(...args) as ExtendedDataFrame<any>;
+): ExtendedDataFrame<T> {
+  const instance = originalPl.DataFrame(
+    ...args,
+  ) as unknown as ExtendedDataFrame<T>;
 
   // Add the `writeExcel` method if it doesn't exist
   if (!instance.writeExcel) {
@@ -139,28 +144,21 @@ const WrappedDataFrame = function (
     "withRowCount",
     "where",
     "upsample",
-  ] as Array<
-    keyof ExtendedDataFrame<any>
-  >)
-    .forEach(
-      (method) => {
-        const originalMethod = instance[method].bind(instance);
-
-        Object.defineProperty(instance, method, {
-          value: function (
-            ...args: Parameters<typeof originalMethod>
-          ): ExtendedDataFrame<any> {
-            // Call the original method
-            const newDf = originalMethod(...args);
-
-            // Wrap the returned DataFrame to add the writeExcel method
-            return WrappedDataFrame(newDf);
-          },
-          writable: true,
-          configurable: true,
-        });
+  ] as Array<keyof ExtendedDataFrame<any>>).forEach((method) => {
+    const originalMethod = instance[method].bind(instance);
+    Object.defineProperty(instance, method, {
+      value: function (
+        ...args: Parameters<typeof originalMethod>
+      ): ExtendedDataFrame<any> {
+        const newDf = originalMethod(...args);
+        return WrappedDataFrame(
+          newDf as unknown as Parameters<typeof originalPl.DataFrame>[0],
+        );
       },
-    );
+      writable: true,
+      configurable: true,
+    });
+  });
 
   return instance;
 };
@@ -168,7 +166,11 @@ const WrappedDataFrame = function (
 // Replace the DataFrame factory with the wrapped one
 const extendedPl = {
   ...originalPl,
-  DataFrame: WrappedDataFrame,
+  DataFrame: WrappedDataFrame as <
+    T extends Record<string, originalPl.Series<any, string>>,
+  >(
+    ...args: Parameters<typeof originalPl.DataFrame>
+  ) => ExtendedDataFrame<T>,
   readExcel: async function (
     filePath: string,
     options?: ReadExcelOptions,
@@ -176,11 +178,13 @@ const extendedPl = {
     const df = await readExcel(filePath, options);
 
     // Wrap the returned DataFrame to add the writeExcel method
-    return WrappedDataFrame(df);
+    return WrappedDataFrame(
+      df as unknown as Parameters<typeof originalPl.DataFrame>[0],
+    );
   },
   writeExcel,
   ExtendedDataFrame: null as unknown as ExtendedDataFrame<any>,
-} as unknown as typeof originalPl & { DataFrame: typeof WrappedDataFrame };
+} as ExtendedPolars;
 
 // Override the top-level `concat` function to return an ExtendedDataFrame
 extendedPl.concat = function (
@@ -201,7 +205,7 @@ extendedPl.concat = function (
   return result;
 };
 
-export { type ExtendedDataFrame, readExcel, writeExcel };
+// Type assertion for default export
+export default extendedPl as ExtendedPolars;
 
-// Export the extended Polars object
-export default extendedPl;
+export { type ExtendedDataFrame, readExcel, writeExcel };
