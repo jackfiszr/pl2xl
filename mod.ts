@@ -7,7 +7,6 @@ import type {
   WriteExcelOptions,
 } from "./types.d.ts";
 
-export type * from "polars";
 export type * from "./types.d.ts";
 
 /**

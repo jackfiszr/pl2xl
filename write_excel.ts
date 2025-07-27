@@ -1,5 +1,6 @@
 import ExcelJS from "@tinkie101/exceljs-wrapper";
 import type {
+  DataFrame,
   ExtendedDataFrame,
   RowData,
   WriteExcelOptions,
@@ -22,7 +23,11 @@ import type {
  * @returns A promise that resolves when the Excel file has been written.
  */
 export async function writeExcel(
-  df: ExtendedDataFrame<any> | ExtendedDataFrame<any>[],
+  df:
+    | ExtendedDataFrame<any>
+    | ExtendedDataFrame<any>[]
+    | DataFrame<any>
+    | DataFrame<any>[],
   filePath: string,
   options: WriteExcelOptions = {},
 ): Promise<void> {

@@ -8,6 +8,8 @@ import type {
   ValueOrArray,
 } from "polars/utils";
 
+export type * from "polars";
+
 export type RowData = Record<
   string,
   string | number | bigint | boolean | null | undefined
