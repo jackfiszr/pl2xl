@@ -183,6 +183,25 @@ const extendedPl = {
   ExtendedDataFrame: null as unknown as ExtendedDataFrame<any>,
 };
 
+// Override the top-level `concat` function to return an ExtendedDataFrame
+extendedPl.concat = function (
+  items: any[],
+  options?: { rechunk?: boolean; how?: "vertical" | "diagonal" | "horizontal" },
+): any {
+  const result = originalPl.concat(items, options);
+
+  // Check if result is a DataFrame and wrap it, else return raw
+  if (
+    originalPl.DataFrame.prototype.constructor &&
+    result instanceof originalPl.DataFrame
+  ) {
+    return WrappedDataFrame(result);
+  }
+
+  // Series or LazyDataFrame — return as-is
+  return result;
+};
+
 export { type ExtendedDataFrame, readExcel, writeExcel };
 
 // Export the extended Polars object
