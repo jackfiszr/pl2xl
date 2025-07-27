@@ -2,31 +2,39 @@
   "version": "5",
   "specifiers": {
     "jsr:@std/assert@^1.0.13": "1.0.13",
-    "jsr:@std/fs@^1.0.18": "1.0.18",
-    "jsr:@std/internal@^1.0.6": "1.0.8",
-    "jsr:@std/path@^1.1.0": "1.1.0",
+    "jsr:@std/fs@^1.0.19": "1.0.19",
+    "jsr:@std/internal@^1.0.6": "1.0.10",
+    "jsr:@std/internal@^1.0.9": "1.0.10",
+    "jsr:@std/path@^1.1.1": "1.1.1",
     "jsr:@tinkie101/exceljs-wrapper@^1.0.2": "1.0.2",
     "npm:exceljs@^4.4.0": "4.4.0",
-    "npm:nodejs-polars@0.18": "0.18.0"
+    "npm:nodejs-polars@0.19": "0.19.0"
   },
   "jsr": {
     "@std/assert@1.0.13": {
       "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29",
       "dependencies": [
-        "jsr:@std/internal"
+        "jsr:@std/internal@^1.0.6"
       ]
     },
-    "@std/fs@1.0.18": {
-      "integrity": "24bcad99eab1af4fde75e05da6e9ed0e0dce5edb71b7e34baacf86ffe3969f3a",
+    "@std/fs@1.0.19": {
+      "integrity": "051968c2b1eae4d2ea9f79a08a3845740ef6af10356aff43d3e2ef11ed09fb06",
       "dependencies": [
+        "jsr:@std/internal@^1.0.9",
         "jsr:@std/path"
       ]
     },
     "@std/internal@1.0.8": {
       "integrity": "fc66e846d8d38a47cffd274d80d2ca3f0de71040f855783724bb6b87f60891f5"
     },
-    "@std/path@1.1.0": {
-      "integrity": "ddc94f8e3c275627281cbc23341df6b8bcc874d70374f75fec2533521e3d6886"
+    "@std/internal@1.0.10": {
+      "integrity": "e3be62ce42cab0e177c27698e5d9800122f67b766a0bea6ca4867886cbde8cf7"
+    },
+    "@std/path@1.1.1": {
+      "integrity": "fe00026bd3a7e6a27f73709b83c607798be40e20c81dde655ce34052fd82ec76",
+      "dependencies": [
+        "jsr:@std/internal@^1.0.9"
+      ]
     },
     "@tinkie101/exceljs-wrapper@1.0.2": {
       "integrity": "9e250f97bfa628fddf2bcfd1360c37d25ad9765f3085514b7c0d7033eadbdc4c",
@@ -373,8 +381,18 @@
       "os": ["android"],
       "cpu": ["arm64"]
     },
+    "nodejs-polars-android-arm64@0.19.0": {
+      "integrity": "sha512-te/3ZWtWjUv3qDCLUSD7aaeWLP1aqXPzMvi6t91FYusu1A76PTTky5S99jB2NFY9xKQaJrFq3AqWcEjIzIC8Ig==",
+      "os": ["android"],
+      "cpu": ["arm64"]
+    },
     "nodejs-polars-darwin-arm64@0.18.0": {
       "integrity": "sha512-Hs8pbyPZCvOLSVoPx6X07vmYu1NmGAvLFYVHry945alesjsMOXZ//9D8psKOsZAh8WRU36CHXHSS18+RxdzLyA==",
+      "os": ["darwin"],
+      "cpu": ["arm64"]
+    },
+    "nodejs-polars-darwin-arm64@0.19.0": {
+      "integrity": "sha512-ckVgd4UUudmv/ZV7LfAx3FhKcS6UFNAA0W8cVuDw0ewn7JRGBzeEjfZnPmxrt+Y+ZMWXwh/HqJtGyfms4mQKjQ==",
       "os": ["darwin"],
       "cpu": ["arm64"]
     },
@@ -383,8 +401,18 @@
       "os": ["darwin"],
       "cpu": ["x64"]
     },
+    "nodejs-polars-darwin-x64@0.19.0": {
+      "integrity": "sha512-MC+hjKIXwgAXKtICWXilnMjbgzzIKrS2Hnk3abOccGIeMkBDJePOt8jICe/RjtCVahRQHdbDnx+TuFxQsBUkqQ==",
+      "os": ["darwin"],
+      "cpu": ["x64"]
+    },
     "nodejs-polars-linux-arm64-gnu@0.18.0": {
       "integrity": "sha512-lqOA0b6XXd/8D0q4tfrlr9g+awN/lz1WoWlDJXlYDCXeEdiPzodHuKOROi/J8cwcM6RpiWLWviFkJ2FkxZBv7w==",
+      "os": ["linux"],
+      "cpu": ["arm64"]
+    },
+    "nodejs-polars-linux-arm64-gnu@0.19.0": {
+      "integrity": "sha512-YDqPhCPkv8Fz3mujBJpMKf9KXexNDsxm5gyfsVbaL2eLI4t97Z9ez/iO4Ft+saspS0N+1XNwXLvANl0PxqfUdQ==",
       "os": ["linux"],
       "cpu": ["arm64"]
     },
@@ -393,8 +421,18 @@
       "os": ["linux"],
       "cpu": ["arm64"]
     },
+    "nodejs-polars-linux-arm64-musl@0.19.0": {
+      "integrity": "sha512-RGzsu7KoTkwlHgWE/QBiK5dQ5gcAKDSEHMsEJbMu5jjbNp+gtKx9WpGrFGHKpdwxk8m5EWQcckKQSBfwDuDdpQ==",
+      "os": ["linux"],
+      "cpu": ["arm64"]
+    },
     "nodejs-polars-linux-x64-gnu@0.18.0": {
       "integrity": "sha512-Gk6HJba0Hrea6yjDEj0u4jArWgry+s8/17g646vJdlcAWoaQYXDdfCseObGjtTqajVkFf2msrn76KWZ2Nadq5A==",
+      "os": ["linux"],
+      "cpu": ["x64"]
+    },
+    "nodejs-polars-linux-x64-gnu@0.19.0": {
+      "integrity": "sha512-eWxXHVeGu6tFeJMzSOzU7U8HTIvQAsK7JXLSNSLsJDVzHAL3eAFea7QZk0aSDSzoSN5L4kyyau2Ee/juyw1VkA==",
       "os": ["linux"],
       "cpu": ["x64"]
     },
@@ -403,22 +441,32 @@
       "os": ["linux"],
       "cpu": ["x64"]
     },
+    "nodejs-polars-linux-x64-musl@0.19.0": {
+      "integrity": "sha512-JaiyXSQwkOgbi+fCmdAkargogxb9PYsH4nCzAP6iDv7+b94PwrS/8hvidHUHRLmLfj/HowSPFaqemfPe3k3y3w==",
+      "os": ["linux"],
+      "cpu": ["x64"]
+    },
     "nodejs-polars-win32-x64-msvc@0.18.0": {
       "integrity": "sha512-jQJST6yDmY/q4kBCCErSaxNrJClL7Dpk7IsdoPrFHXaFzL25nmDxfgow7VWDaEiE45jNL7TXANAgDs7dT61H2Q==",
       "os": ["win32"],
       "cpu": ["x64"]
     },
-    "nodejs-polars@0.18.0": {
-      "integrity": "sha512-TN0InAOCzXS2Nrpr+8Sh9oAvILBjIoKMscz9P5XDJ+Q2F6EMb39Um9gwRzJ2kmEqYsufw6NwsafgbY41xKwVWg==",
+    "nodejs-polars-win32-x64-msvc@0.19.0": {
+      "integrity": "sha512-8XE5BfB3SkkGnFqg7DV2lGJiTFKc5DodtZWdeU0I+OAWwXtDNFCMrR87UWdEUJeSEDgakB2YZXhkkOlPJTvIrQ==",
+      "os": ["win32"],
+      "cpu": ["x64"]
+    },
+    "nodejs-polars@0.19.0": {
+      "integrity": "sha512-/ILt94rwfOv4beVVYGBalO7Mx1yLYeE8wgocO2N5u4MnyHKN5vfEDzVttWKXvJujps3asNvsjapIjQNmZZuLHw==",
       "optionalDependencies": [
-        "nodejs-polars-android-arm64",
-        "nodejs-polars-darwin-arm64",
-        "nodejs-polars-darwin-x64",
-        "nodejs-polars-linux-arm64-gnu",
-        "nodejs-polars-linux-arm64-musl",
-        "nodejs-polars-linux-x64-gnu",
-        "nodejs-polars-linux-x64-musl",
-        "nodejs-polars-win32-x64-msvc"
+        "nodejs-polars-android-arm64@0.19.0",
+        "nodejs-polars-darwin-arm64@0.19.0",
+        "nodejs-polars-darwin-x64@0.19.0",
+        "nodejs-polars-linux-arm64-gnu@0.19.0",
+        "nodejs-polars-linux-arm64-musl@0.19.0",
+        "nodejs-polars-linux-x64-gnu@0.19.0",
+        "nodejs-polars-linux-x64-musl@0.19.0",
+        "nodejs-polars-win32-x64-msvc@0.19.0"
       ]
     },
     "normalize-path@3.0.0": {
@@ -556,9 +604,9 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@^1.0.13",
-      "jsr:@std/fs@^1.0.18",
+      "jsr:@std/fs@^1.0.19",
       "jsr:@tinkie101/exceljs-wrapper@^1.0.2",
-      "npm:nodejs-polars@0.18"
+      "npm:nodejs-polars@0.19"
     ]
   }
 }
