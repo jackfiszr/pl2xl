@@ -40,7 +40,9 @@ export async function readExcel(
 
   const jsonData = worksheetToJson(worksheet);
 
-  return extenedPl.DataFrame(jsonData, { inferSchemaLength });
+  return extenedPl.DataFrame(jsonData, {
+    inferSchemaLength,
+  }) as ExtendedDataFrame<any>;
 }
 
 /**

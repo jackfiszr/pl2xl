@@ -181,7 +181,7 @@ const extendedPl = {
   },
   writeExcel,
   ExtendedDataFrame: null as unknown as ExtendedDataFrame<any>,
-};
+} as unknown as typeof originalPl & { DataFrame: typeof WrappedDataFrame };
 
 // Override the top-level `concat` function to return an ExtendedDataFrame
 extendedPl.concat = function (
