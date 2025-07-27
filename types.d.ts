@@ -10,16 +10,25 @@ import type {
 
 export type * from "polars";
 
+/**
+ * Represents a single row of data as a record of column name to value.
+ */
 export type RowData = Record<
   string,
   string | number | bigint | boolean | null | undefined
 >;
 
+/**
+ * Excel table style theme used for formatting tables.
+ */
 export type TableStyle = ExcelJS.TableStyleProperties["theme"];
 
 type ExcelSpreadsheetEngine = "exceljs" | "xslx";
 type SchemaDict = Record<string, unknown>;
 
+/**
+ * Options for reading Excel files into a DataFrame.
+ */
 export interface ReadExcelOptions {
   sheetId?: number | null;
   sheetName?: string[] | [string] | null;
@@ -36,6 +45,9 @@ export interface ReadExcelOptions {
   raiseIfEmpty?: boolean;
 }
 
+/**
+ * Options for writing DataFrames to Excel files.
+ */
 export interface WriteExcelOptions {
   sheetName?: string | string[];
   includeHeader?: boolean;

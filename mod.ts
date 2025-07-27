@@ -205,7 +205,36 @@ extendedPl.concat = function (
   return result;
 };
 
-// Type assertion for default export
+/**
+ * Extended version of the `polars` library that provides:
+ * - the original `polars` object with all its features,
+ * - a wrapped `DataFrame` class (called `WrappedDataFrame`) with an added `writeExcel` method,
+ * - `readExcel` and `writeExcel` functions for reading and writing Excel files,
+ * - and the `ExtendedDataFrame` type for the extended DataFrame.
+ *
+ * Main enhancements compared to the original library:
+ * - the `writeExcel` method is available directly on DataFrame instances,
+ * - all DataFrame methods returning new DataFrames return the wrapped ExtendedDataFrame with `writeExcel`,
+ * - the `concat` function returns an ExtendedDataFrame,
+ * - the `readExcel` and `writeExcel` functions are exposed directly on the export.
+ *
+ * @remarks
+ * This export allows seamless use of Excel-related functionality without manually wrapping DataFrame objects.
+ *
+ * @example
+ * ```ts
+ * import pl from "@jackfiszr/pl2xl";
+ *
+ * // Create a DataFrame
+ * const df = pl.DataFrame({ a: [1, 2, 3] });
+ *
+ * // Write to Excel
+ * await df.writeExcel("file.xlsx");
+ *
+ * // Read from Excel
+ * const df2 = await pl.readExcel("file.xlsx");
+ * ```
+ */
 export default extendedPl as ExtendedPolars;
 
 export { type ExtendedDataFrame, readExcel, writeExcel };
