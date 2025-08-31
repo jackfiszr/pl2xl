@@ -4,6 +4,7 @@ import pl from "./mod.ts";
 const inputDf = pl.DataFrame({
   Name: ["Alice", "Bob", "Charlie"],
   Age: [25, 30, 35],
+  Empty: [null, null, null],
   City: ["New York", "Los Angeles", "Chicago"],
 });
 

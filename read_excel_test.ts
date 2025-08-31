@@ -1,5 +1,5 @@
 import { assertEquals, assertRejects } from "@std/assert";
-import { readExcel } from "./read_excel.ts";
+import { readExcel, worksheetToJson } from "./read_excel.ts";
 import { createTestExcelFile, removeTestFile } from "./test_utils.ts";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
 
@@ -60,6 +60,35 @@ Deno.test({
     const df = await readExcel(filePath);
 
     assertEquals(df.shape, { height: 0, width: 0 });
+
+    await removeTestFile(filePath);
+  },
+});
+
+Deno.test({
+  name: "worksheetToJson - Includes empty columns in output",
+  async fn() {
+    const filePath = "./test-empty-column.xlsx";
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet("Sheet1");
+
+    // Add header
+    sheet.addRow(["Name", "Age", "EmptyColumn"]);
+
+    // Add rows where last column is truly missing (undefined)
+    sheet.addRow(["Alice", 30]); // EmptyColumn missing
+    sheet.addRow(["Bob", 25]); // EmptyColumn missing
+
+    await workbook.xlsx.writeFile(filePath);
+
+    const jsonData = worksheetToJson(sheet);
+
+    // This should fail for buggy worksheetToJson
+    for (const row of jsonData) {
+      if (!("EmptyColumn" in row)) {
+        throw new Error("EmptyColumn is missing in worksheetToJson output");
+      }
+    }
 
     await removeTestFile(filePath);
   },

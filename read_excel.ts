@@ -57,29 +57,40 @@ export async function readExcel(
  * - Empty string cell values are replaced with `null`.
  * - If a header cell is empty, a default column name in the format `Column{colNumber}` is used.
  */
-function worksheetToJson(worksheet: ExcelJS.Worksheet): RowData[] {
+export function worksheetToJson(worksheet: ExcelJS.Worksheet): RowData[] {
   const jsonData: RowData[] = [];
   const headers: string[] = [];
 
   worksheet.eachRow((row, rowNumber) => {
     const rowData: RowData = {};
 
-    row.eachCell((cell, colNumber) => {
-      let cellValue = cell.value as string | number | boolean | null;
+    if (rowNumber === 1) {
+      // first row is header
+      row.eachCell((cell, colNumber) => {
+        let cellValue = cell.value as string | number | boolean | null;
 
-      if (typeof cellValue === "string" && cellValue.trim() === "") {
-        // Replace empty string with null
-        cellValue = null;
-      }
+        if (typeof cellValue === "string" && cellValue.trim() === "") {
+          cellValue = null; // replace empty string with null
+        }
 
-      if (rowNumber === 1) {
         headers[colNumber - 1] = cellValue?.toString() || `Column${colNumber}`;
-      } else {
-        rowData[headers[colNumber - 1]] = cellValue;
-      }
-    });
+      });
+    } else {
+      // data rows
+      headers.forEach((header, idx) => {
+        // keep original column order
+        const cellValue = row.getCell(idx + 1).value as
+          | string
+          | number
+          | boolean
+          | null
+          | undefined;
+        rowData[header] =
+          (typeof cellValue === "string" && cellValue.trim() === "")
+            ? null
+            : (cellValue ?? null);
+      });
 
-    if (rowNumber > 1) {
       jsonData.push(rowData);
     }
   });
