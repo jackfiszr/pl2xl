@@ -13,16 +13,18 @@ export type ExtendedPolars = Omit<typeof originalPl, "DataFrame"> & {
   >(
     ...args: Parameters<typeof originalPl.DataFrame>
   ) => ExtendedDataFrame<T>;
-  readExcel: (
+
+  readExcel: <T extends Record<string, originalPl.Series<any, string>>>(
     filePath: string,
     options?: ReadExcelOptions,
-  ) => Promise<ExtendedDataFrame<any>>;
-  writeExcel: (
+  ) => Promise<ExtendedDataFrame<T>>;
+
+  writeExcel: <T extends Record<string, originalPl.Series<any, string>>>(
     df:
-      | ExtendedDataFrame<any>
-      | ExtendedDataFrame<any>[]
-      | import("polars").DataFrame<any>
-      | import("polars").DataFrame<any>[],
+      | ExtendedDataFrame<T>
+      | ExtendedDataFrame<T>[]
+      | originalPl.DataFrame<any>
+      | originalPl.DataFrame<any>[],
     filePath: string,
     options?: WriteExcelOptions,
   ) => Promise<void>;
