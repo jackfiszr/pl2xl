@@ -1,39 +1,38 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@std/assert@^1.0.14": "1.0.14",
-    "jsr:@std/fs@^1.0.19": "1.0.19",
-    "jsr:@std/internal@^1.0.10": "1.0.10",
-    "jsr:@std/internal@^1.0.9": "1.0.10",
-    "jsr:@std/path@^1.1.1": "1.1.2",
+    "jsr:@std/assert@^1.0.18": "1.0.18",
+    "jsr:@std/fs@^1.0.22": "1.0.22",
+    "jsr:@std/internal@^1.0.12": "1.0.12",
+    "jsr:@std/path@^1.1.4": "1.1.4",
     "jsr:@tinkie101/exceljs-wrapper@^1.0.2": "1.0.2",
     "npm:exceljs@^4.4.0": "4.4.0",
     "npm:nodejs-polars@0.19": "0.19.0"
   },
   "jsr": {
-    "@std/assert@1.0.14": {
-      "integrity": "68d0d4a43b365abc927f45a9b85c639ea18a9fab96ad92281e493e4ed84abaa4",
+    "@std/assert@1.0.18": {
+      "integrity": "270245e9c2c13b446286de475131dc688ca9abcd94fc5db41d43a219b34d1c78",
       "dependencies": [
-        "jsr:@std/internal@^1.0.10"
+        "jsr:@std/internal"
       ]
     },
-    "@std/fs@1.0.19": {
-      "integrity": "051968c2b1eae4d2ea9f79a08a3845740ef6af10356aff43d3e2ef11ed09fb06",
+    "@std/fs@1.0.22": {
+      "integrity": "de0f277a58a867147a8a01bc1b181d0dfa80bfddba8c9cf2bacd6747bcec9308",
       "dependencies": [
-        "jsr:@std/internal@^1.0.9",
+        "jsr:@std/internal",
         "jsr:@std/path"
       ]
     },
     "@std/internal@1.0.8": {
       "integrity": "fc66e846d8d38a47cffd274d80d2ca3f0de71040f855783724bb6b87f60891f5"
     },
-    "@std/internal@1.0.10": {
-      "integrity": "e3be62ce42cab0e177c27698e5d9800122f67b766a0bea6ca4867886cbde8cf7"
+    "@std/internal@1.0.12": {
+      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
     },
-    "@std/path@1.1.2": {
-      "integrity": "c0b13b97dfe06546d5e16bf3966b1cadf92e1cc83e56ba5476ad8b498d9e3038",
+    "@std/path@1.1.4": {
+      "integrity": "1d2d43f39efb1b42f0b1882a25486647cb851481862dc7313390b2bb044314b5",
       "dependencies": [
-        "jsr:@std/internal@^1.0.10"
+        "jsr:@std/internal"
       ]
     },
     "@tinkie101/exceljs-wrapper@1.0.2": {
@@ -376,19 +375,9 @@
       ],
       "bin": true
     },
-    "nodejs-polars-android-arm64@0.18.0": {
-      "integrity": "sha512-ksmL8X2xsMkI9WMlzRw7Mt7csIDfNJVDlyybSDMMAfO1YWfC2aCFUroFc8UnXVK+8bIZXB7W+k1ZzTRhtSxPsQ==",
-      "os": ["android"],
-      "cpu": ["arm64"]
-    },
     "nodejs-polars-android-arm64@0.19.0": {
       "integrity": "sha512-te/3ZWtWjUv3qDCLUSD7aaeWLP1aqXPzMvi6t91FYusu1A76PTTky5S99jB2NFY9xKQaJrFq3AqWcEjIzIC8Ig==",
       "os": ["android"],
-      "cpu": ["arm64"]
-    },
-    "nodejs-polars-darwin-arm64@0.18.0": {
-      "integrity": "sha512-Hs8pbyPZCvOLSVoPx6X07vmYu1NmGAvLFYVHry945alesjsMOXZ//9D8psKOsZAh8WRU36CHXHSS18+RxdzLyA==",
-      "os": ["darwin"],
       "cpu": ["arm64"]
     },
     "nodejs-polars-darwin-arm64@0.19.0": {
@@ -396,28 +385,13 @@
       "os": ["darwin"],
       "cpu": ["arm64"]
     },
-    "nodejs-polars-darwin-x64@0.18.0": {
-      "integrity": "sha512-AmLHJ4a4ufTAFohr7b7cQmPvn1Owl6AQBwwows447GfwEO65lu0PSUcmJbeiGJcLtjM9Dji6uiJdadRnGXC4sw==",
-      "os": ["darwin"],
-      "cpu": ["x64"]
-    },
     "nodejs-polars-darwin-x64@0.19.0": {
       "integrity": "sha512-MC+hjKIXwgAXKtICWXilnMjbgzzIKrS2Hnk3abOccGIeMkBDJePOt8jICe/RjtCVahRQHdbDnx+TuFxQsBUkqQ==",
       "os": ["darwin"],
       "cpu": ["x64"]
     },
-    "nodejs-polars-linux-arm64-gnu@0.18.0": {
-      "integrity": "sha512-lqOA0b6XXd/8D0q4tfrlr9g+awN/lz1WoWlDJXlYDCXeEdiPzodHuKOROi/J8cwcM6RpiWLWviFkJ2FkxZBv7w==",
-      "os": ["linux"],
-      "cpu": ["arm64"]
-    },
     "nodejs-polars-linux-arm64-gnu@0.19.0": {
       "integrity": "sha512-YDqPhCPkv8Fz3mujBJpMKf9KXexNDsxm5gyfsVbaL2eLI4t97Z9ez/iO4Ft+saspS0N+1XNwXLvANl0PxqfUdQ==",
-      "os": ["linux"],
-      "cpu": ["arm64"]
-    },
-    "nodejs-polars-linux-arm64-musl@0.18.0": {
-      "integrity": "sha512-lylaOGB3c94UBpsDt4XtrS2RJymgICfAnMVlbvN+2bftejh7blDaYTJeLvZr4POHfltpWeSXjl28Zck7goDJCA==",
       "os": ["linux"],
       "cpu": ["arm64"]
     },
@@ -426,29 +400,14 @@
       "os": ["linux"],
       "cpu": ["arm64"]
     },
-    "nodejs-polars-linux-x64-gnu@0.18.0": {
-      "integrity": "sha512-Gk6HJba0Hrea6yjDEj0u4jArWgry+s8/17g646vJdlcAWoaQYXDdfCseObGjtTqajVkFf2msrn76KWZ2Nadq5A==",
-      "os": ["linux"],
-      "cpu": ["x64"]
-    },
     "nodejs-polars-linux-x64-gnu@0.19.0": {
       "integrity": "sha512-eWxXHVeGu6tFeJMzSOzU7U8HTIvQAsK7JXLSNSLsJDVzHAL3eAFea7QZk0aSDSzoSN5L4kyyau2Ee/juyw1VkA==",
-      "os": ["linux"],
-      "cpu": ["x64"]
-    },
-    "nodejs-polars-linux-x64-musl@0.18.0": {
-      "integrity": "sha512-KAb72TGTphCUfTZj1mMyDAJ+/3pgifAucWjdCr6aO3Jw4XHJVu6mMRhfDUZgIGWilpwADwPLHnqPjs+qydOoCg==",
       "os": ["linux"],
       "cpu": ["x64"]
     },
     "nodejs-polars-linux-x64-musl@0.19.0": {
       "integrity": "sha512-JaiyXSQwkOgbi+fCmdAkargogxb9PYsH4nCzAP6iDv7+b94PwrS/8hvidHUHRLmLfj/HowSPFaqemfPe3k3y3w==",
       "os": ["linux"],
-      "cpu": ["x64"]
-    },
-    "nodejs-polars-win32-x64-msvc@0.18.0": {
-      "integrity": "sha512-jQJST6yDmY/q4kBCCErSaxNrJClL7Dpk7IsdoPrFHXaFzL25nmDxfgow7VWDaEiE45jNL7TXANAgDs7dT61H2Q==",
-      "os": ["win32"],
       "cpu": ["x64"]
     },
     "nodejs-polars-win32-x64-msvc@0.19.0": {
@@ -459,14 +418,14 @@
     "nodejs-polars@0.19.0": {
       "integrity": "sha512-/ILt94rwfOv4beVVYGBalO7Mx1yLYeE8wgocO2N5u4MnyHKN5vfEDzVttWKXvJujps3asNvsjapIjQNmZZuLHw==",
       "optionalDependencies": [
-        "nodejs-polars-android-arm64@0.19.0",
-        "nodejs-polars-darwin-arm64@0.19.0",
-        "nodejs-polars-darwin-x64@0.19.0",
-        "nodejs-polars-linux-arm64-gnu@0.19.0",
-        "nodejs-polars-linux-arm64-musl@0.19.0",
-        "nodejs-polars-linux-x64-gnu@0.19.0",
-        "nodejs-polars-linux-x64-musl@0.19.0",
-        "nodejs-polars-win32-x64-msvc@0.19.0"
+        "nodejs-polars-android-arm64",
+        "nodejs-polars-darwin-arm64",
+        "nodejs-polars-darwin-x64",
+        "nodejs-polars-linux-arm64-gnu",
+        "nodejs-polars-linux-arm64-musl",
+        "nodejs-polars-linux-x64-gnu",
+        "nodejs-polars-linux-x64-musl",
+        "nodejs-polars-win32-x64-msvc"
       ]
     },
     "normalize-path@3.0.0": {
@@ -603,8 +562,8 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@std/assert@^1.0.14",
-      "jsr:@std/fs@^1.0.19",
+      "jsr:@std/assert@^1.0.18",
+      "jsr:@std/fs@^1.0.22",
       "jsr:@tinkie101/exceljs-wrapper@^1.0.2",
       "npm:nodejs-polars@0.19"
     ]
