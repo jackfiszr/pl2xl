@@ -1,4 +1,4 @@
-import ExcelJS from "jsr:@tinkie101/exceljs-wrapper@^1.0.2";
+import ExcelJS from "@tinkie101/exceljs-wrapper";
 import { exists } from "@std/fs";
 
 export async function createTestExcelFile(

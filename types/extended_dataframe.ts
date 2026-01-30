@@ -15,7 +15,7 @@ import type { WriteExcelOptions } from "./excel.ts";
  * and overrides the methods that take/return DataFrame to take/return the ExtendedDataFrame instead.
  */
 export interface ExtendedDataFrame<
-  T extends Record<string, originalPl.Series> = Record<
+  T extends Record<keyof Schema, originalPl.Series> = Record<
     string,
     originalPl.Series
   >,
@@ -89,7 +89,9 @@ export interface ExtendedDataFrame<
    * @param predicate - The predicate to use for filtering.
    * @returns The filtered DataFrame.
    */
-  filter(predicate: any): ExtendedDataFrame<T>;
+  filter(
+    predicate: originalPl.Expr | ((row: T) => boolean),
+  ): ExtendedDataFrame<T>;
 
   /**
    * Compares the DataFrame with another DataFrame for equality.
@@ -113,7 +115,7 @@ export interface ExtendedDataFrame<
    * @param inPlace - Whether to perform the operation in place.
    * @returns The DataFrame with stacked columns.
    */
-  hstack<U extends Record<string, originalPl.Series> = any>(
+  hstack<U extends Record<string, originalPl.Series>>(
     columns: this,
   ): this;
   hstack<U extends originalPl.Series[]>(columns: U): this;
@@ -223,7 +225,9 @@ export interface ExtendedDataFrame<
    * Counts the number of null values in the DataFrame.
    * @returns The DataFrame with the count of null values.
    */
-  nullCount(): any;
+  nullCount(): ExtendedDataFrame<
+    { [K in keyof T & string]: originalPl.Series<originalPl.UInt32, string> }
+  >;
 
   /**
    * Partitions the DataFrame by the specified columns.
@@ -308,7 +312,7 @@ export interface ExtendedDataFrame<
    * @param mapping - The mapping of old column names to new column names.
    * @returns The DataFrame with renamed columns.
    */
-  rename<const U extends Partial<Record<string, string>>>(mapping: U): any;
+  rename<const U extends Partial<Record<string, string>>>(mapping: U): this;
   rename(mapping: Record<string, string>): this;
 
   /**
@@ -509,7 +513,9 @@ export interface ExtendedDataFrame<
   withColumnRenamed<Existing extends string, New extends string>(opts: {
     existingName: Existing;
     replacement: New;
-  }): any;
+  }): ExtendedDataFrame<
+    { [K in keyof T as K extends Existing ? New : K]: T[K] }
+  >;
   withColumnRenamed(opts: { existing: string; replacement: string }): this;
 
   /**
@@ -524,7 +530,9 @@ export interface ExtendedDataFrame<
    * @param predicate - The predicate to use for filtering.
    * @returns The filtered DataFrame.
    */
-  where(predicate: any): ExtendedDataFrame<T>;
+  where(
+    predicate: originalPl.Expr | ((row: T) => boolean),
+  ): ExtendedDataFrame<T>;
 
   /**
    * Upsamples the DataFrame based on the specified time column and interval.
