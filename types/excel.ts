@@ -1,0 +1,41 @@
+import type ExcelJS from "@tinkie101/exceljs-wrapper";
+
+/**
+ * Excel table style theme used for formatting tables.
+ */
+export type TableStyle = ExcelJS.TableStyleProperties["theme"];
+
+type ExcelSpreadsheetEngine = "exceljs" | "xslx";
+type SchemaDict = Record<string, unknown>;
+
+/**
+ * Options for reading Excel files into a DataFrame.
+ */
+export interface ReadExcelOptions {
+  sheetId?: number | null;
+  sheetName?: string[] | [string] | null;
+  engine?: ExcelSpreadsheetEngine;
+  engineOptions?: Record<string, unknown>;
+  readOptions?: Record<string, unknown>;
+  hasHeader?: boolean;
+  columns?: number[] | string[] | null;
+  schemaOverrides?: SchemaDict | null;
+  inferSchemaLength?: number;
+  includeFilePaths?: string | null;
+  dropEmptyRows?: boolean;
+  dropEmptyCols?: boolean;
+  raiseIfEmpty?: boolean;
+}
+
+/**
+ * Options for writing DataFrames to Excel files.
+ */
+export interface WriteExcelOptions {
+  sheetName?: string | string[];
+  includeHeader?: boolean;
+  autofitColumns?: boolean;
+  tableStyle?: TableStyle;
+  header?: string;
+  footer?: string;
+  withWorkbook?: (workbook: ExcelJS.Workbook) => void;
+}
