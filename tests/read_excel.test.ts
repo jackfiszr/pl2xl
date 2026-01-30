@@ -1,5 +1,5 @@
 import { assertEquals, assertRejects } from "@std/assert";
-import { readExcel, worksheetToJson } from "./read_excel.ts";
+import { readExcel, worksheetToJson } from "../src/read_excel.ts";
 import { createTestExcelFile, removeTestFile } from "./test_utils.ts";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
 

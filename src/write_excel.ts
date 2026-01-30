@@ -4,7 +4,7 @@ import type {
   ExtendedDataFrame,
   RowData,
   WriteExcelOptions,
-} from "./types.d.ts";
+} from "../types/mod.ts";
 
 /**
  * Writes one or more DataFrames to an Excel file, each in its own worksheet.

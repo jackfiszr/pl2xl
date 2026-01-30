@@ -1,10 +1,10 @@
 import ExcelJS from "@tinkie101/exceljs-wrapper";
-import extenedPl from "./mod.ts";
+import extenedPl from "../mod.ts";
 import type {
   ExtendedDataFrame,
   ReadExcelOptions,
   RowData,
-} from "./types.d.ts";
+} from "../types/mod.ts";
 
 /**
  * Reads an Excel file and converts the specified worksheet to a DataFrame.

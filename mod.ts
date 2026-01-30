@@ -1,14 +1,14 @@
 import originalPl from "polars";
-import { readExcel } from "./read_excel.ts";
-import { writeExcel } from "./write_excel.ts";
+import { readExcel } from "./src/read_excel.ts";
+import { writeExcel } from "./src/write_excel.ts";
 import type {
   ExtendedDataFrame,
   ExtendedPolars,
   ReadExcelOptions,
   WriteExcelOptions,
-} from "./types.d.ts";
+} from "./types/mod.ts";
 
-export type * from "./types.d.ts";
+export type * from "./types/mod.ts";
 
 /**
  * A wrapper function for the original DataFrame constructor from the `nodejs-polars` library.

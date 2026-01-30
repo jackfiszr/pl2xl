@@ -1,8 +1,8 @@
 import { assertEquals, assertRejects } from "@std/assert";
-import { writeExcel } from "./write_excel.ts";
+import { writeExcel } from "../src/write_excel.ts";
 import { getRows, removeTestFile } from "./test_utils.ts";
 import ExcelJS from "@tinkie101/exceljs-wrapper";
-import pl from "./mod.ts";
+import pl from "../mod.ts";
 
 Deno.test({
   name: "writeExcel - Writes a DataFrame to a valid Excel file",

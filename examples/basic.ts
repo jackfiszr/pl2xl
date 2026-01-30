@@ -1,4 +1,4 @@
-import pl from "./mod.ts";
+import pl from "../mod.ts";
 
 // Create a sample DataFrame
 const inputDf = pl.DataFrame({
