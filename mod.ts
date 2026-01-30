@@ -189,7 +189,20 @@ const extendedPl = {
 // Override the top-level `concat` function to return an ExtendedDataFrame
 extendedPl.concat = function (
   items: any[],
-  options?: { rechunk?: boolean; how?: "vertical" | "diagonal" | "horizontal" },
+  options?: {
+    rechunk?: boolean;
+    how?:
+      | "vertical"
+      | "diagonal"
+      | "horizontal"
+      | "verticalRelaxed"
+      | "diagonalRelaxed"
+      | "align"
+      | "alignInner"
+      | "alignFull"
+      | "alignLeft"
+      | "alignRight";
+  },
 ): any {
   const result = originalPl.concat(items, options);
 

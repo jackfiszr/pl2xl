@@ -3,6 +3,7 @@ import type {
   ColumnSelection,
   ColumnsOrExpr,
   ExprOrString,
+  Schema,
   Simplify,
   ValueOrArray,
 } from "polars/utils";
@@ -14,8 +15,11 @@ import type { WriteExcelOptions } from "./excel.ts";
  * and overrides the methods that take/return DataFrame to take/return the ExtendedDataFrame instead.
  */
 export interface ExtendedDataFrame<
-  T extends Record<string, originalPl.Series> = any,
-> extends originalPl.DataFrame<T> {
+  T extends Record<string, originalPl.Series> = Record<
+    string,
+    originalPl.Series
+  >,
+> extends originalPl.DataFrame<Schema> {
   /**
    * Writes the DataFrame to an Excel file.
    * @param filePath - The path to the Excel file.
@@ -435,14 +439,14 @@ export interface ExtendedDataFrame<
    * @returns The DataFrame with unique rows.
    */
   unique(
-    maintainOrder?: boolean,
     subset?: ColumnSelection,
-    keep?: "first" | "last",
+    keep?: "first" | "last" | "any" | "none",
+    maintainOrder?: boolean,
   ): ExtendedDataFrame<T>;
   unique(opts: {
-    maintainOrder?: boolean;
     subset?: ColumnSelection;
-    keep?: "first" | "last";
+    keep?: "first" | "last" | "any" | "none";
+    maintainOrder?: boolean;
   }): ExtendedDataFrame<T>;
 
   /**
